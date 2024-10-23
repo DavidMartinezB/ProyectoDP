@@ -26,7 +26,8 @@ public class Order
      * @param destinationName The name of the person receiving the order.
      * @throws NullPointerException If either location is null.
      */
-    public Order(String sendingName, Location location, Location destination, int deliveryTime, double weight, String destinationName)      {
+    public Order(String sendingName, Location location, Location destination, int deliveryTime, 
+                 double weight, String destinationName, String deliveryPersonName)      {
         
         if(location == null) {
             throw new NullPointerException("Location location");
@@ -42,6 +43,7 @@ public class Order
         this.deliveryTime = deliveryTime;
         this.weight = weight;
         this.destinationName = destinationName;
+        this.deliveryPersonName = deliveryPersonName;
     }
     
     /**
