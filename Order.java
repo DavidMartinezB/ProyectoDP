@@ -69,6 +69,22 @@ public class Order
     }
 
     /**
+     * @return The sender's name.
+     */
+    public String getSendingName(){
+        return sendingName;
+    }
+
+
+    /**
+     * @return The delivery time.
+     * 
+     */
+    public int getDeliveryTime(){
+        return deliveryTime;
+    }
+
+    /**
      * Set the new name of the delivery person.
      * @param The new name of the delivery person.
      */
