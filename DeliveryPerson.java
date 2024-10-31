@@ -251,6 +251,14 @@ public class DeliveryPerson
             }
         }
     }
+
+    /**
+     * Return details of the delivery person, such as where he/she is.
+     * @return A string representation of the delivery person.
+     */
+    public String showInitialInfo(){
+        return toString();
+    }
  
     /**
      * Return details of the delivery person, such as the name, the location,

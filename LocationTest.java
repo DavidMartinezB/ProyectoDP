@@ -15,8 +15,6 @@ public class LocationTest
     Location startLocation;
     Location destination;
     Location otherLocation;
-    //TODO
-    //crear más campos (si es necesario) 
 
     /**
      * Default constructor for test class LocationTest
