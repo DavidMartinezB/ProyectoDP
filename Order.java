@@ -27,7 +27,7 @@ public class Order
      * @throws NullPointerException If either location is null.
      */
     public Order(String sendingName, Location location, Location destination, int deliveryTime, 
-                 double weight, String destinationName, String deliveryPersonName)      {
+                 double weight, String destinationName)      {
         
         if(location == null) {
             throw new NullPointerException("Location location");
@@ -43,7 +43,6 @@ public class Order
         this.deliveryTime = deliveryTime;
         this.weight = weight;
         this.destinationName = destinationName;
-        this.deliveryPersonName = deliveryPersonName;
     }
     
     /**
@@ -102,12 +101,21 @@ public class Order
     }
 
     /**
+     * Devuelve los detalles del pedido que está por entregarse.
+     * @return Una cadena de tipo String con la info del pedido.
+     */
+    public String showFirstInfo ()     {
+        return "from: " + sendingName + " to: " + destinationName + " at: " +
+               deliveryTime + " weight: " + weight;
+    }
+    
+    /**
      * Return details of the passenger, such as where it is.
      * @return A string representation of the passenger.
      */
     public String toString()
     {
-        return "Order "+"info a decidir"+" travelling from " +
+        return "Order " + showFirstInfo() + " travelling from " +
         location + " to " + destination;
     }
 
@@ -117,7 +125,8 @@ public class Order
      */
     public String showFinalInfo()
     {
-        return "Sender's name: " + sendingName + ", Destination: " + destination + ", Who delivers it?: " + deliveryPersonName;
+        return " Order delivered at: " + deliveryTime + " by: " + deliveryPersonName + 
+               " to: " + destinationName + " from: " + sendingName;
     }
 
 }
