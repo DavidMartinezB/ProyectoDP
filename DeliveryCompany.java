@@ -62,7 +62,7 @@ public class DeliveryCompany
      */
     public void addOrder(Order order)
     {
-        wareHouse.getOrders().add(order);
+        wareHouse.addOrder(order);
     }
 
     /**
