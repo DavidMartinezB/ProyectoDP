@@ -241,21 +241,19 @@ public class DeliveryPerson
         }
         else{
             location = location.nextLocation(targetLocation);
-            if (order == null) {
+            if (this.isFree() && this.getLocation().equals(this.getTargetLocation())) {
                 notifyPickupArrival();
             }
             else{
-                notifyOrderArrival(order);
-                deliverOrder();
-                incrementOrdersDelivered();
+                if(!this.isFree() && this.getLocation().equals(this.getTargetLocation())){
+                    notifyOrderArrival(order);
+                    deliverOrder();
+                    incrementOrdersDelivered();
+                }
             }
         }
     }
 
-    /**
-     * Return details of the delivery person, such as where he/she is.
-     * @return A string representation of the delivery person.
-     */
     public String showInitialInfo(){
         return toString();
     }
