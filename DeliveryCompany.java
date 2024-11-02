@@ -113,7 +113,6 @@ public class DeliveryCompany
      */
     public boolean requestPickup(Order order)
     {
-        //TODO REVISAR A FONDO
         boolean solicita = false;
         
         if (getDeliveryPerson() != null)   {
@@ -131,12 +130,10 @@ public class DeliveryCompany
      */
     public void arrivedAtPickup(DeliveryPerson dp)
     {
-        deliveryPersons.get(posDeliveryPersonLibre).pickup(wareHouse.getOrders().get(wareHouse.getOrders().size()-1));
+        dp.pickup(wareHouse.getOrders().get(wareHouse.getOrders().size()-1));
         wareHouse.getOrders().get(wareHouse.getOrders().size()-1).setDeliveryPersonName(deliveryPersons.get(posDeliveryPersonLibre).getName());
         System.out.println(dp + " picks up Order from " + wareHouse.getOrders().get(wareHouse.getOrders().size()-1).getSendingName() + 
         " to " + wareHouse.getOrders().get(wareHouse.getOrders().size()-1).getDestinationName());
-        //TODO el order debe guardar el nombre de la persona de reparto que le ha recogido
-        //TODO la persona de reparto debe recoger el pedido
     }
 
     /**
