@@ -69,8 +69,7 @@ public class DeliveryCompany
      * Find a the most closed free delivery person to the whare house's location, if any.
      * @return A free delivery person, or null if there is none.
      */
-    private DeliveryPerson getDeliveryPerson()
-    {
+    private DeliveryPerson getDeliveryPerson() {
         boolean repLibre1 = false;
         boolean repLibre2 = false;
         int dis1 = 0;
@@ -78,31 +77,36 @@ public class DeliveryCompany
         boolean salir = false;
         int i = 0;
         ComparadorNombreDeliveryPerson comparador = new ComparadorNombreDeliveryPerson();
-        
-        while (i < deliveryPersons.size() && salir != false)   {
+    
+        posDeliveryPersonLibre = -1; // Reset the position
+    
+        while (i < deliveryPersons.size() && !salir) {
             repLibre1 = deliveryPersons.get(i).isFree();
-            if (repLibre1 != false)   {
+            if (repLibre1) {
                 salir = true;
                 posDeliveryPersonLibre = i;
-                repLibre2 = deliveryPersons.get(i+1).isFree();
-                if (repLibre2 != false) {
-                    deliveryPersons.get(i).setTargetLocation(wareHouse.getLocation());
-                    deliveryPersons.get(i+1).setTargetLocation(wareHouse.getLocation());
-                    dis1 = deliveryPersons.get(i).distanceToTheTargetLocation();
-                    dis2 = deliveryPersons.get(i+1).distanceToTheTargetLocation();
-                    if (dis1 == dis2)   {
-                        if (comparador.compare(deliveryPersons.get(i),deliveryPersons.get(i+1)) <= 0)   {
-                            posDeliveryPersonLibre = i;
-                        }
-                        else    {
-                            posDeliveryPersonLibre = i+1;
+                if (i + 1 < deliveryPersons.size()) {
+                    repLibre2 = deliveryPersons.get(i + 1).isFree();
+                    if (repLibre2) {
+                        deliveryPersons.get(i).setTargetLocation(wareHouse.getLocation());
+                        deliveryPersons.get(i + 1).setTargetLocation(wareHouse.getLocation());
+                        dis1 = deliveryPersons.get(i).distanceToTheTargetLocation();
+                        dis2 = deliveryPersons.get(i + 1).distanceToTheTargetLocation();
+                        if (dis1 == dis2) {
+                            if (comparador.compare(deliveryPersons.get(i), deliveryPersons.get(i + 1)) > 0) {
+                                posDeliveryPersonLibre = i + 1;
+                            }
                         }
                     }
                 }
             }
             i++;
         }
-        
+    
+        if (posDeliveryPersonLibre == -1) {
+            return null;
+        }
+    
         return deliveryPersons.get(posDeliveryPersonLibre);
     }
 
@@ -111,13 +115,13 @@ public class DeliveryCompany
      * @param order The order to be delivered.
      * @return Whether a free delivery person is available.
      */
-    public boolean requestPickup(Order order)
-    {
+    public boolean requestPickup(Order order) {
         boolean solicita = false;
         
-        if (getDeliveryPerson() != null)   {
+        DeliveryPerson dp = getDeliveryPerson();
+        if (dp != null) {
             wareHouse.addOrder(order);
-            deliveryPersons.get(posDeliveryPersonLibre).setPickupLocation(wareHouse.getLocation());
+            dp.setPickupLocation(wareHouse.getLocation());
             solicita = true;
         }
         
@@ -128,12 +132,19 @@ public class DeliveryCompany
      * A delivery person has arrived at a pickup point.
      * @param dp The delivery person at the pickup point.
      */
-    public void arrivedAtPickup(DeliveryPerson dp)
-    {
-        dp.pickup(wareHouse.getOrders().get(wareHouse.getOrders().size()-1));
-        wareHouse.getOrders().get(wareHouse.getOrders().size()-1).setDeliveryPersonName(deliveryPersons.get(posDeliveryPersonLibre).getName());
-        System.out.println(dp + " picks up Order from " + wareHouse.getOrders().get(wareHouse.getOrders().size()-1).getSendingName() + 
-        " to " + wareHouse.getOrders().get(wareHouse.getOrders().size()-1).getDestinationName());
+    public void arrivedAtPickup(DeliveryPerson dp) {
+        List<Order> orders = wareHouse.getOrders();
+        if (orders.isEmpty()) {
+            throw new IllegalStateException("No orders available for pickup.");
+        }
+    
+        int lastIndex = orders.size() - 1;
+        Order orderToPickup = orders.get(lastIndex);
+        dp.pickup(orderToPickup);
+        orderToPickup.setDeliveryPersonName(deliveryPersons.get(posDeliveryPersonLibre).getName());
+    
+        System.out.println(dp + " picks up Order from " + orderToPickup.getSendingName() + 
+            " to " + orderToPickup.getDestinationName());
     }
 
     /**
