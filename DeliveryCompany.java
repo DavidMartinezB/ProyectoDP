@@ -141,7 +141,7 @@ public class DeliveryCompany
         int lastIndex = orders.size() - 1;
         Order orderToPickup = orders.get(lastIndex);
         dp.pickup(orderToPickup);
-        orderToPickup.setDeliveryPersonName(deliveryPersons.get(posDeliveryPersonLibre).getName());
+        orderToPickup.setDeliveryPersonName(dp.getName());
     
         System.out.println(dp + " picks up Order from " + orderToPickup.getSendingName() + 
             " to " + orderToPickup.getDestinationName());
