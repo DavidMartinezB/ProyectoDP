@@ -33,6 +33,13 @@ public class WareHouse {
      */
     public void addOrder(Order order) {
         orders.add(order);
+        sortOrders();
+    }
+    
+    /**
+     * Sort the orders by delivery time and sending name.
+     */
+    private void sortOrders() {
         orders.sort((o1, o2) -> {
             int timeComparison = Integer.compare(o1.getDeliveryTime(), o2.getDeliveryTime());
             if (timeComparison != 0) {
@@ -42,13 +49,12 @@ public class WareHouse {
         });
     }
     /**
-     * Retrieve and remove an order from the warehouse.
-     * @param order The order to be retrieved.
-     * @return The order if it exists, null otherwise.
+     * Retrieve and remove the first order in the warehouse.
+     * @return The first order if it exists, null otherwise.
      */
-    public Order retrieveOrder(Order order) {
-        if (orders.remove(order)) {
-            return order;
+    public Order retrieveFirstOrder() {
+        if (!orders.isEmpty()) {
+            return orders.remove(0);
         }
         return null;
     }
