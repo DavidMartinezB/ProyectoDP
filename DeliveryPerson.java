@@ -241,15 +241,21 @@ public class DeliveryPerson
         }
         else{
             location = location.nextLocation(targetLocation);
-            if (order == null) {
+            if (this.isFree() && this.getLocation().equals(this.getTargetLocation())) {
                 notifyPickupArrival();
             }
             else{
-                notifyOrderArrival(order);
-                deliverOrder();
-                incrementOrdersDelivered();
+                if(!this.isFree() && this.getLocation().equals(this.getTargetLocation())){
+                    notifyOrderArrival(order);
+                    deliverOrder();
+                    incrementOrdersDelivered();
+                }
             }
         }
+    }
+
+    public String showInitialInfo(){
+        return toString();
     }
  
     /**

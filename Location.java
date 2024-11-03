@@ -25,7 +25,15 @@ public class Location
         if(y < 0) {
             throw new IllegalArgumentException(
                 "Negative y-coordinate: " + y);
-        }        
+        }
+         if(x > 19){
+            throw new IllegalArgumentException(
+                "Out of range x-coordinate: " + x);
+         }  
+         if( y > 19){
+            throw new IllegalArgumentException(
+                "Out of range x-coordinate: " + y);
+         }    
         this.x = x;
         this.y = y;
     }
