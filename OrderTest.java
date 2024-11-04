@@ -12,6 +12,10 @@ import org.junit.Test;
  */
 public class OrderTest
 {
+    Order order;
+    Location location;
+    Location destination;
+    
     /**
      * Default constructor for test class OrderTest
      */
@@ -27,6 +31,9 @@ public class OrderTest
     @Before
     public void setUp()
     {
+        location = new Location(3,5);
+        destination = new Location(6,1);
+        order = new Order("Pablo", location, destination, 11, 1.6, "Banana Vintage Cáceres");
     }
 
     /**
@@ -47,9 +54,19 @@ public class OrderTest
     @Test
     public void testCreation()
     {
-        //TODO implementar este método
-        // Testear la creación correcta de objetos de tipo Order comprobando 
-        // que la inicialización de campos como dirección de recogida y destino es correcta.
+        assertEquals("Pablo", order.getSendingName());
+        assertEquals(location, order.getLocation());
+        assertEquals(destination, order.getDestination());
+        assertEquals(11, order.getDeliveryTime());
+        assertEquals(1.6, order.getWeight(), 0.001);
+        assertEquals("Banana Vintage Cáceres", order.getDestinationName());
+        //Misma prueba realizada de otra manera:
+        //para location
+        assertEquals(order.getLocation().getX(),3);
+        assertEquals(order.getLocation().getY(),5);
+        //para destination
+        assertEquals(order.getDestination().getX(),6);
+        assertEquals(order.getDestination().getY(),1);
     }
 
     /**
@@ -59,9 +76,10 @@ public class OrderTest
     @Test
     public void testGetDeliveryPersonName()
     {
-        //TODO implementar este método
-        // Testear el método que devuelve el nombre del la persona que ha hecho el 
-        // reparto
+        order.setDeliveryPersonName("Felicia");
+        assertEquals("Felicia", order.getDeliveryPersonName());
+        //Misma prueba utilizando otra aserción:
+        assertTrue(order.getDeliveryPersonName() == "Felicia");
     }
 
     /**
@@ -71,7 +89,8 @@ public class OrderTest
     @Test
     public void testGetDestination ()
     {
-        //TODO implementar este método
-        // Testear el método que devuelve la dirección de envío del objeto.
+        assertEquals(order.getDestination(),destination);
+        //Misma prueba utilizando otra aserción:
+        assertTrue(order.getDestination() == destination);
     }
 }
