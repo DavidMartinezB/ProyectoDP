@@ -60,51 +60,19 @@ public class Order
         deliveryPersonName = "";
     }
 
-    /**
-     * @return The name of the delivery person.
-     */
-    public String getDeliveryPersonName()
-    {
-        return deliveryPersonName;
-    }
-
+    //GETTERS
     /**
      * @return The sender's name.
      */
     public String getSendingName(){
         return sendingName;
     }
-
-    /**
-     * @return The delivery time.
-     * 
-     */
-    public int getDeliveryTime(){
-        return deliveryTime;
-    }
-
-    /**
-     * Set the new name of the delivery person.
-     * @param The new name of the delivery person.
-     */
-    public void setDeliveryPersonName(String deliveryPersonName)
-    {
-        this.deliveryPersonName = deliveryPersonName;
-    }
-
+    
     /**
      * @return The location of the order.
      */
     public Location getLocation()   {
         return location;
-    }
-    
-    /**
-     * Set the new location for the order.
-     * @param The new location of the order.
-     */
-    public void setLocation(Location location)   {
-        this.location = location;
     }
     
     /**
@@ -114,13 +82,104 @@ public class Order
     {
         return destination;
     }
-
+    
+    /**
+     * @return The delivery time.
+     */
+    public int getDeliveryTime(){
+        return deliveryTime;
+    }
+    
+    /**
+     * @return The weight of the order.
+     */
+    public double getWeight()   {
+        return weight;
+    }
+    
     /**
     * @return The destination name of the order.
     */
     public String getDestinationName ()    {
         return destinationName;
     }
+    
+    /**
+     * @return The name of the delivery person.
+     */
+    public String getDeliveryPersonName()
+    {
+        return deliveryPersonName;
+    }
+
+    //SETTERS
+    /**
+     * Set the new name of the sender's name.
+     * @param The new name of the sender's name.
+     */
+    public void setSendingName(String sendingName)    {
+        this.sendingName = sendingName;
+    }
+    
+    /**
+     * Set the new location for the order.
+     * @param The new location of the order.
+     */
+    public void setLocation(Location location)   {
+        if(location != null) {
+            this.location = location;
+        }
+        else {
+            throw new NullPointerException();
+        }
+    }
+    
+    /**
+     * Set the new destination for the order.
+     * @param The new destination of the order.
+     */
+    public void setDestination(Location destination)   {
+        if(location != null) {
+            this.destination = destination;
+        }
+        else {
+            throw new NullPointerException();
+        }
+    }
+    
+    /**
+     * Set the new delivery time of the order.
+     * @param The new delivery time of the order.
+     */
+    public void setDeliveryTime(int deliveryTime)   {
+        this.deliveryTime = deliveryTime;
+    }
+    
+    /**
+     * Set the new weight of the order.
+     * @param The new weight of the order.
+     */
+    public void setWeight(double weight)     {
+        this.weight = weight;
+    }
+    
+    /**
+     * Set the new name of the destination.
+     * @param The new name of the destination.
+     */
+    public void setDestinationName(String destinationName)    {
+        this.destinationName = destinationName;
+    }
+    
+    /**
+     * Set the new name of the delivery person.
+     * @param The new name of the delivery person.
+     */
+    public void setDeliveryPersonName(String deliveryPersonName)
+    {
+        this.deliveryPersonName = deliveryPersonName;
+    }
+    
     
     /**
      * Devuelve los detalles del pedido que está por entregarse.
