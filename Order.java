@@ -6,8 +6,7 @@
  * @version 2016.02.29
  * @version 2024.10.07 DP classes 
  */
-public class Order
-{
+public abstract class Order  {
     private String sendingName;
     private Location location;
     private Location destination;
@@ -15,6 +14,8 @@ public class Order
     private double weight;
     private String destinationName;
     private String deliveryPersonName;
+    private Surcharge surcharge;
+    private Urgency urgency;
     
     /**
      * Constructor for objects of class Order
@@ -24,10 +25,12 @@ public class Order
      * @param deliveryTime The hour of delivery.
      * @param weight  The order's weight
      * @param destinationName The name of the person receiving the order.
+     * @param surcharge The surcharge of the order`s delivery.
+     * @param The urgency's level of the order.
      * @throws NullPointerException If either location is null.
      */
     public Order(String sendingName, Location location, Location destination, int deliveryTime, 
-                 double weight, String destinationName)      {
+                 double weight, String destinationName, Surcharge surcharge, Urgency urgency)      {
         
         if(location == null) {
             throw new NullPointerException("Location location");
@@ -44,13 +47,14 @@ public class Order
         this.weight = weight;
         this.destinationName = destinationName;
         deliveryPersonName = "";
+        this.surcharge = surcharge;
+        this.urgency = urgency;
     }
     
     /**
      * Default constructor of class Order
      */
     public Order()  {
-        
         sendingName = "";
         location = null;
         destination = null;
@@ -112,6 +116,23 @@ public class Order
         return deliveryPersonName;
     }
 
+    /**
+     * @return The surcharge of the order's delivery.
+     */
+    public Surcharge getSurcharge()
+    {
+        return surcharge;
+    }
+    
+    /**
+     * @return The urgency's level of the order.
+     */
+    public Urgency getUrgency()
+    {
+        return urgency;
+    }
+    
+    
     //SETTERS
     /**
      * Set the new name of the sender's name.
@@ -180,6 +201,24 @@ public class Order
         this.deliveryPersonName = deliveryPersonName;
     }
     
+    /**
+     * Set the new surcharge of the order.
+     * @param The new surcharge of the order.
+     */
+    public void setSurcharge(Surcharge surcharge)
+    {
+        this.surcharge = surcharge;
+    }
+    
+    /**
+     * Set the new urgency's level of the order.
+     * @param The new urgency's level of the order.
+     */
+    public void setUrgency(Urgency urgency)
+    {
+        this.urgency = urgency;
+    }
+    
     
     /**
      * Devuelve los detalles del pedido que está por entregarse.
@@ -210,4 +249,10 @@ public class Order
                " to: " + destinationName + " from: " + sendingName;
     }
 
+    //METODO ABSTRACTO
+    public abstract int charge();
+    
+    //METODO ABSTRACTO
+    public abstract int calculateEvaluationDP();
+    
 }
