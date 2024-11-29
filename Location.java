@@ -55,6 +55,22 @@ public class Location
     }
 
     /**
+     * Change the value of the x coordinate.
+     * @param i The new x coordinate.
+     */
+    public void setX(int i){
+        x = i;
+    }
+
+    /**
+     * Change the value of the y coordinate.
+     * @param i The new y coordinate.
+     */
+    public void setY(int i){
+        y = i;
+    }
+
+    /**
      * Generate the next location to visit in order to
      * reach the destination.
      * @param destination Where we want to get to.

@@ -54,6 +54,14 @@ public class DeliveryPerson
     }
 
     /**
+     * Change the name of the DelievryPerson.
+     * @param newName The new name of the DeliveryPerson.
+     */
+    public void setName(String newName){
+        name = newName;
+    }
+
+    /**
      * Get the location.
      * @return Where this delivery person is currently located.
      */
@@ -113,6 +121,71 @@ public class DeliveryPerson
     }
 
     /**
+     * @return on how many steps this delivery person has been idle.
+     */
+    public int getIdleCount()
+    {
+        return idleCount;
+    }
+    
+    /**
+     * Change the value of IdleCount.
+     * @param newIdleCount The new IdleCount.
+     */
+    public void setIdleCount(int newIdleCount){
+        idleCount = newIdleCount;
+    }
+
+    /**
+     * @return how many orders this delivery person has delivered.
+     */
+    public int ordersDelivered()
+    {
+        return ordersDelivered;
+    }
+
+    /**
+     * Change the value of ordersDelivered.
+     * @param i The new number of orders delivered.
+     */
+    public void setOrdersDelivered(int i){
+        ordersDelivered = i;
+    }
+
+    /**
+     * @return the order that the DeliveyPerson has to delivered.
+     */
+    public Order getOrder(){
+        return order;
+    }
+
+    /**
+     * Receive an order.
+     * Set order's destination as its target location.
+     * @param order The order.
+     */
+    public void pickup(Order order)
+    {
+        setTargetLocation(order.getDestination());
+        this.order = order;
+    }   
+
+    /**
+     * @return the company the Delivery Person works for.
+     */
+    public DeliveryCompany getDeliveryCompany(){
+        return  company;
+    }
+
+    /**
+     * Changes the company where the Delivery Person works.
+     * @param newCompany The new company.
+     */
+    public void setDeliveryCompany(DeliveryCompany newCompany){
+        company = newCompany;
+    }
+
+    /**
      * Has the delivery person a target Location?
      * @return Whether or not this delivery person has a target Location.
      */
@@ -126,14 +199,6 @@ public class DeliveryPerson
     public void clearTargetLocation()
     {
         targetLocation = null;
-    }
-
-    /**
-     * @return on how many steps this delivery person has been idle.
-     */
-    public int getIdleCount()
-    {
-        return idleCount;
     }
 
     /**
@@ -187,31 +252,12 @@ public class DeliveryPerson
     }
 
     /**
-     * Receive an order.
-     * Set order's destination as its target location.
-     * @param order The order.
-     */
-    public void pickup(Order order)
-    {
-        setTargetLocation(order.getDestination());
-        this.order = order;
-    }   
-
-    /**
      * Deliver the order.
      */
     public void deliverOrder()
     {
         clearTargetLocation();
         order = null;
-    }
-
-    /**
-     * @return how many orders this delivery person has delivered.
-     */
-    public int ordersDelivered()
-    {
-        return ordersDelivered;
     }
 
     /**
