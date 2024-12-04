@@ -10,7 +10,7 @@ public class WareHouse {
      */
     public WareHouse() {
         this.location = new Location(5, 5);
-        this.orders = new TreeSet<>(new OrderComparator());
+        this.orders = new TreeSet<>(new ComparadorUrgenciaOrder());
         this.deliveredOrders = new TreeMap<>(new DeliveredOrderComparator());
     }
 
@@ -65,23 +65,6 @@ public class WareHouse {
      */
     public Map<Order, DeliveryPerson> getDeliveredOrders() {
         return deliveredOrders;
-    }
-    /**
-     * Comparator for sorting orders by urgency, delivery time, and destination name.
-     */
-    private static class OrderComparator implements Comparator<Order> {
-        @Override
-        public int compare(Order o1, Order o2) {
-            int urgencyComparison = Integer.compare(o2.getUrgency().getValue(), o1.getUrgency().getValue());
-            if (urgencyComparison != 0) {
-                return urgencyComparison;
-            }
-            int timeComparison = Integer.compare(o1.getDeliveryTime(), o2.getDeliveryTime());
-            if (timeComparison != 0) {
-                return timeComparison;
-            }
-            return o1.getDestinationName().compareTo(o2.getDestinationName());
-        }
     }
 
     /**
