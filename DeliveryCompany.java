@@ -157,6 +157,7 @@ public class DeliveryCompany {
      * @param order The order being dropped off.
      */
     public void arrivedAtDestination(DeliveryPerson dp, Order order) {
+        wareHouse.addDeliveredOrder(order, dp);
         System.out.println(dp + " delivers " + order);
     }
 }

@@ -1,3 +1,4 @@
+import java.util.*;
 /**
  * Model the common elements of delivery persons.
  * 
@@ -17,10 +18,16 @@ public class DeliveryPerson
     private int idleCount; 
     //name of the delivery person
     private String name;
-    //order that is being distributed 
-    private Order order;
     //number of orders distributed
     private int ordersDelivered;
+    //orders to be delivered
+    private Set<Order> ordersToDeliver;
+    //valuation
+    private int valuation;
+    //maximum number of orders that can be transported
+    private int maxLoad;
+    //total accumulated amount that has to be collected
+    private int totalCharged;
 
     /**
      * Constructor of class DeliveryPerson
@@ -28,7 +35,7 @@ public class DeliveryPerson
      * @param location The delivery person's starting point. Must not be null.
      * @throws NullPointerException If company or location is null.
      */
-    public DeliveryPerson(DeliveryCompany company, Location location, String name)
+    public DeliveryPerson(DeliveryCompany company, Location location, String name, int maxLoad)
     {
         if(company == null) {
             throw new NullPointerException("company");
@@ -39,10 +46,13 @@ public class DeliveryPerson
         this.company = company;
         this.location = location;
         this.name = name;
-        targetLocation = null;
-        idleCount = 0;
-        order = null;
-        ordersDelivered= 0;
+        this.targetLocation = null;
+        this.idleCount = 0;
+        this.ordersDelivered= 0;
+        this.ordersToDeliver = new TreeSet<>(new ComparadorUrgenciaOrder());
+        this.valuation = 0;
+        this.maxLoad = maxLoad;
+        this.totalCharged = 0;
     }
 
     /**
@@ -127,6 +137,14 @@ public class DeliveryPerson
     {
         return idleCount;
     }
+
+    public Order getFirstOrder(){
+        return (Order)((TreeSet)ordersToDeliver).first();
+    }
+
+    public Set<Order> getOrdersToDeliver(){
+        return ordersToDeliver;
+    }
     
     /**
      * Change the value of IdleCount.
@@ -153,13 +171,6 @@ public class DeliveryPerson
     }
 
     /**
-     * @return the order that the DeliveyPerson has to delivered.
-     */
-    public Order getOrder(){
-        return order;
-    }
-
-    /**
      * Receive an order.
      * Set order's destination as its target location.
      * @param order The order.
@@ -167,7 +178,7 @@ public class DeliveryPerson
     public void pickup(Order order)
     {
         setTargetLocation(order.getDestination());
-        this.order = order;
+        ((TreeSet)ordersToDeliver).addFirst(order);
     }   
 
     /**
@@ -210,6 +221,18 @@ public class DeliveryPerson
         idleCount++;
     }
 
+    public int obtainTotalCharge(){
+        return totalCharged;
+    }
+
+    public void incTotalCharged(int charge){
+        totalCharged = totalCharged + charge;
+    }
+
+    public void updateValuation(int newValuation){
+        valuation = valuation + newValuation;
+    }
+
     /**
      * Return details of the delivery person, such as where he/she is.
      * @return A string representation of the delivery person.
@@ -226,7 +249,7 @@ public class DeliveryPerson
     public boolean isFree()
     {
         boolean free;
-        if(order == null){
+        if(ordersToDeliver.isEmpty()){
             free = true;
         }
         else{
@@ -256,8 +279,14 @@ public class DeliveryPerson
      */
     public void deliverOrder()
     {
+        notifyOrderArrival(getFirstOrder());
         clearTargetLocation();
-        order = null;
+        incTotalCharged(getFirstOrder().charge());
+        updateValuation(getFirstOrder().calculateEvaluationDP());
+        ((TreeSet)ordersToDeliver).pollFirst();
+        if(!ordersToDeliver.isEmpty()){
+            setTargetLocation(getFirstOrder().getDestination());
+        }
     }
 
     /**
@@ -292,7 +321,6 @@ public class DeliveryPerson
             }
             else{
                 if(!this.isFree() && this.getLocation().equals(this.getTargetLocation())){
-                    notifyOrderArrival(order);
                     deliverOrder();
                     incrementOrdersDelivered();
                 }
