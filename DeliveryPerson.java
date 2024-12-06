@@ -6,7 +6,7 @@ import java.util.*;
  * @version 2016.02.29
  * @version 2024.10.07 DP classes 
  */
-public class DeliveryPerson 
+public abstract class DeliveryPerson 
 {
     // The Delivery Company of this DeliveryPerson.
     private DeliveryCompany company;
@@ -145,6 +145,20 @@ public class DeliveryPerson
     public Set<Order> getOrdersToDeliver(){
         return ordersToDeliver;
     }
+
+    public int getMaxLoad(){
+        return maxLoad;
+    }
+
+    public int getValuation(){
+        return valuation;
+    }
+
+    public void setValuation(int newValuation){
+        valuation = newValuation;
+    }
+
+
     
     /**
      * Change the value of IdleCount.
