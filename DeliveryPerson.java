@@ -191,8 +191,13 @@ public abstract class DeliveryPerson
      */
     public void pickup(Order order)
     {
-        setTargetLocation(order.getDestination());
-        ((TreeSet)ordersToDeliver).addFirst(order);
+        if(ordersToDeliver.size() < maxLoad){
+            setTargetLocation(order.getDestination());
+            ((TreeSet)ordersToDeliver).addFirst(order);
+        }
+        else{
+            throw new IllegalArgumentException("El DeliveryPerson no puede llevar mas Orders.");
+        }
     }   
 
     /**
