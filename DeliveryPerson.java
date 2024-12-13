@@ -163,18 +163,6 @@ public abstract class DeliveryPerson
     }
 
     /**
-     * Can the Delivery Person carry more Orders?
-     * @return Whether or not this delivery person can carry more orders.
-     */
-    public boolean isFull(){
-        boolean full = true;
-        if(ordersToDeliver.size() < maxLoad){
-            full = false;
-        }
-        return full;
-    }
-    
-    /**
      * Change the value of IdleCount.
      * @param newIdleCount The new IdleCount.
      */
