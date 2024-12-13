@@ -154,11 +154,25 @@ public abstract class DeliveryPerson
         return valuation;
     }
 
+    /**
+     * Can the Delivery Person carry more Orders?
+     * @return Whether or not this delivery person can carry more orders.
+     */
     public void setValuation(int newValuation){
         valuation = newValuation;
     }
 
-
+    /**
+     * Can the Delivery Person carry more Orders?
+     * @return Whether or not this delivery person can carry more orders.
+     */
+    public boolean isFull(){
+        boolean full = true;
+        if(ordersToDeliver.size() < maxLoad){
+            full = false;
+        }
+        return full;
+    }
     
     /**
      * Change the value of IdleCount.
@@ -191,13 +205,8 @@ public abstract class DeliveryPerson
      */
     public void pickup(Order order)
     {
-        if(ordersToDeliver.size() < maxLoad){
-            setTargetLocation(order.getDestination());
-            ((TreeSet)ordersToDeliver).addFirst(order);
-        }
-        else{
-            throw new IllegalArgumentException("El DeliveryPerson no puede llevar mas Orders.");
-        }
+        setTargetLocation(order.getDestination());
+        ((TreeSet)ordersToDeliver).addFirst(order);
     }   
 
     /**
@@ -240,14 +249,26 @@ public abstract class DeliveryPerson
         idleCount++;
     }
 
+    /**
+     * Increases the amount of money.
+     * @param charge The charge to add.
+     */
     public int obtainTotalCharge(){
         return totalCharged;
     }
 
+    /**
+     * increases the amount of money.
+     * @param charge The charge to add.
+     */
     public void incTotalCharged(int charge){
         totalCharged = totalCharged + charge;
     }
 
+    /**
+     * Update the valuation of the Delivery Person.
+     * @param newValuation The new valuation to add.
+     */
     public void updateValuation(int newValuation){
         valuation = valuation + newValuation;
     }
@@ -267,12 +288,14 @@ public abstract class DeliveryPerson
      */
     public boolean isFree()
     {
-        boolean free;
+        boolean free = false;
         if(ordersToDeliver.isEmpty()){
             free = true;
         }
         else{
-            free = false;
+            if(ordersToDeliver.size() < maxLoad){
+                free = true;
+            }
         }
         return free;
     }
@@ -360,4 +383,7 @@ public abstract class DeliveryPerson
     {
         return toString() + " - orders delivered: " + ordersDelivered() + " - non active for: " + getIdleCount() +" times";
     }
+
+    //METODO ABSTRACTO
+    public abstract int getUrgency(Order order);
 }

@@ -1,5 +1,3 @@
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Write a description of class CommondDP here.
@@ -28,5 +26,18 @@ public class CommondDP extends DeliveryPerson implements PopularEnRedes
     {
         setPopularEnRedes();
         super.deliverOrder();
+    }
+
+    public int getUrgency(Order order){
+        int x = 0;
+        if(order.getUrgency().getValue() == 3){
+            x = 3;
+        }
+        else{
+            if(order.getUrgency().getValue() == 1){
+                x = 1;
+            }
+        }
+        return x;
     }
 }
