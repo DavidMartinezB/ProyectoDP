@@ -28,16 +28,4 @@ public class CommondDP extends DeliveryPerson implements PopularEnRedes
         super.deliverOrder();
     }
 
-    public int getUrgency(Order order){
-        int x = 0;
-        if(order.getUrgency().getValue() == 3){
-            x = 3;
-        }
-        else{
-            if(order.getUrgency().getValue() == 1){
-                x = 1;
-            }
-        }
-        return x;
-    }
 }
