@@ -10,4 +10,5 @@ public class SpecialDP extends DeliveryPerson
     public SpecialDP (DeliveryCompany company, Location location, String name){
         super(company, location, name, 1);
     }
+    
 }

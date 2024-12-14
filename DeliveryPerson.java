@@ -6,7 +6,7 @@ import java.util.*;
  * @version 2016.02.29
  * @version 2024.10.07 DP classes 
  */
-public class DeliveryPerson 
+public abstract class DeliveryPerson 
 {
     // The Delivery Company of this DeliveryPerson.
     private DeliveryCompany company;
@@ -145,7 +145,23 @@ public class DeliveryPerson
     public Set<Order> getOrdersToDeliver(){
         return ordersToDeliver;
     }
-    
+
+    public int getMaxLoad(){
+        return maxLoad;
+    }
+
+    public int getValuation(){
+        return valuation;
+    }
+
+    /**
+     * Can the Delivery Person carry more Orders?
+     * @return Whether or not this delivery person can carry more orders.
+     */
+    public void setValuation(int newValuation){
+        valuation = newValuation;
+    }
+
     /**
      * Change the value of IdleCount.
      * @param newIdleCount The new IdleCount.
@@ -221,14 +237,26 @@ public class DeliveryPerson
         idleCount++;
     }
 
+    /**
+     * Increases the amount of money.
+     * @param charge The charge to add.
+     */
     public int obtainTotalCharge(){
         return totalCharged;
     }
 
+    /**
+     * increases the amount of money.
+     * @param charge The charge to add.
+     */
     public void incTotalCharged(int charge){
         totalCharged = totalCharged + charge;
     }
 
+    /**
+     * Update the valuation of the Delivery Person.
+     * @param newValuation The new valuation to add.
+     */
     public void updateValuation(int newValuation){
         valuation = valuation + newValuation;
     }
@@ -248,12 +276,14 @@ public class DeliveryPerson
      */
     public boolean isFree()
     {
-        boolean free;
+        boolean free = false;
         if(ordersToDeliver.isEmpty()){
             free = true;
         }
         else{
-            free = false;
+            if(ordersToDeliver.size() < maxLoad){
+                free = true;
+            }
         }
         return free;
     }
@@ -261,9 +291,9 @@ public class DeliveryPerson
     /**
      * Notify the company of our arrival at a pickup location.
      */
-    public void notifyPickupArrival()
+    public void notifyPickupArrival(Order order)
     {
-        company.arrivedAtPickup(this);
+        company.arrivedAtPickup(this, order);
     }
 
     /**
@@ -309,7 +339,7 @@ public class DeliveryPerson
     /**
      * Carry out a delivery person's actions.
      */
-    public void act()
+    public void act(Order order)
     {
         if(!hasTargetLocation()){
             incrementIdleCount();
@@ -317,7 +347,7 @@ public class DeliveryPerson
         else{
             location = location.nextLocation(targetLocation);
             if (this.isFree() && this.getLocation().equals(this.getTargetLocation())) {
-                notifyPickupArrival();
+                notifyPickupArrival(order);
             }
             else{
                 if(!this.isFree() && this.getLocation().equals(this.getTargetLocation())){
@@ -341,4 +371,5 @@ public class DeliveryPerson
     {
         return toString() + " - orders delivered: " + ordersDelivered() + " - non active for: " + getIdleCount() +" times";
     }
+
 }

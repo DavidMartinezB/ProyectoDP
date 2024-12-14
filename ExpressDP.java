@@ -10,5 +10,5 @@ public class ExpressDP extends DeliveryPerson
     public ExpressDP (DeliveryCompany company, Location location, String name){
         super(company, location, name, 2);
     }
-}
 
+}
