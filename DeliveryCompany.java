@@ -11,7 +11,6 @@ public class DeliveryCompany {
     private String name;  //nombre de la compañía
     private List<DeliveryPerson> deliveryPersons;
     private WareHouse wareHouse;
-    private int posDeliveryPersonLibre;
 
     /**
      * Constructor for objects of class DeliveryCompany
@@ -20,7 +19,6 @@ public class DeliveryCompany {
         this.name = name;
         deliveryPersons = new ArrayList<>();
         wareHouse = new WareHouse();
-        posDeliveryPersonLibre = 0;
     }
 
     /**
@@ -43,7 +41,7 @@ public class DeliveryCompany {
     /**
      * @return The list of orders.
      */
-    public List<Order> getOrders() {
+    public Set<Order> getOrders() {
         return wareHouse.getOrders();
     }
 
@@ -70,45 +68,46 @@ public class DeliveryCompany {
      * Find the most closed free delivery person to the warehouse's location, if any.
      * @return A free delivery person, or null if there is none.
      */
-    private DeliveryPerson getDeliveryPerson() {
-        boolean repLibre1 = false;
-        boolean repLibre2 = false;
-        int dis1 = 0;
-        int dis2 = 0;
+    private DeliveryPerson getDeliveryPerson(Order order) {
+        
+        for (int i=0;i<deliveryPersons.size();i++)  {
+            deliveryPersons.get(i).setTargetLocation(wareHouse.getLocation());
+        }
+        
+        Collections.sort(deliveryPersons, new ComparadorDeliveryPerson());
+        DeliveryPerson DPLibre = null;
         boolean salir = false;
         int i = 0;
-        ComparadorNombreDeliveryPerson comparador = new ComparadorNombreDeliveryPerson();
-
-        posDeliveryPersonLibre = -1; // Reset the position
 
         while (i < deliveryPersons.size() && !salir) {
-            repLibre1 = deliveryPersons.get(i).isFree();
-            if (repLibre1) {
-                salir = true;
-                posDeliveryPersonLibre = i;
-                if (i + 1 < deliveryPersons.size()) {
-                    repLibre2 = deliveryPersons.get(i + 1).isFree();
-                    if (repLibre2) {
-                        deliveryPersons.get(i).setTargetLocation(wareHouse.getLocation());
-                        deliveryPersons.get(i + 1).setTargetLocation(wareHouse.getLocation());
-                        dis1 = deliveryPersons.get(i).distanceToTheTargetLocation();
-                        dis2 = deliveryPersons.get(i + 1).distanceToTheTargetLocation();
-                        if (dis1 == dis2) {
-                            if (comparador.compare(deliveryPersons.get(i), deliveryPersons.get(i + 1)) > 0) {
-                                posDeliveryPersonLibre = i + 1;
-                            }
-                        }
-                    }
+            if (deliveryPersons.get(i).isFree() != false)   {
+                int cargaDP = deliveryPersons.get(i).getMaxLoad();
+                switch(cargaDP)    {
+                    case 1:
+                        if (order.getUrgency().getValue() == 5)
+                            DPLibre = deliveryPersons.get(i);
+                        salir = true;
+                        break;
+                    case 2:
+                        if (order.getUrgency().getValue() == 3)
+                            DPLibre = deliveryPersons.get(i);
+                        salir = true;
+                        break;
+                    case 4:
+                        if (order.getUrgency().getValue() == 3 || order.getUrgency().getValue() == 1)
+                            DPLibre = deliveryPersons.get(i);
+                        salir = true;
+                        break;
                 }
             }
             i++;
         }
-
-        if (posDeliveryPersonLibre == -1) {
-            return null;
+        
+        for (int j=0;j<deliveryPersons.size();j++)  {
+            deliveryPersons.get(j).clearTargetLocation();
         }
 
-        return deliveryPersons.get(posDeliveryPersonLibre);
+        return DPLibre;
     }
 
     /**
@@ -119,10 +118,11 @@ public class DeliveryCompany {
     public boolean requestPickup(Order order) {
         boolean solicita = false;
 
-        DeliveryPerson dp = getDeliveryPerson();
+        DeliveryPerson dp = getDeliveryPerson(order);
+        
         if (dp != null) {
             wareHouse.addOrder(order);
-            dp.setPickupLocation(wareHouse.getLocation());
+            dp.setPickupLocation(order.getLocation());
             solicita = true;
         }
 
@@ -133,22 +133,14 @@ public class DeliveryCompany {
      * A delivery person has arrived at a pickup point.
      * @param dp The delivery person at the pickup point.
      */
-    public void arrivedAtPickup(DeliveryPerson dp) {
-        System.out.println("ArriveAtPickup");
-        List<Order> orders = wareHouse.getOrders(); 
-        System.out.println(orders);
-        System.out.println("Orders in warehouse: " + orders.size());
-        if (orders.isEmpty()) {
-            throw new IllegalStateException("No orders available for pickup.");
+    public void arrivedAtPickup(DeliveryPerson dp, Order order) {
+        
+        if (dp.distanceToTheTargetLocation() == 0)   {
+            dp.pickup(order);
         }
     
-        int lastIndex = orders.size() -1;
-        Order orderToPickup = orders.get(lastIndex);
-        dp.pickup(orderToPickup);
-        orderToPickup.setDeliveryPersonName(dp.getName());
-    
-        System.out.println(dp + " picks up Order from " + orderToPickup.getSendingName() + 
-            " to " + orderToPickup.getDestinationName());
+        System.out.println(dp + " picks up Order from " + order.getSendingName() + 
+            " to " + order.getDestinationName());
     }
 
     /**

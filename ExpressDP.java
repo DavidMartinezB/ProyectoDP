@@ -11,7 +11,4 @@ public class ExpressDP extends DeliveryPerson
         super(company, location, name, 2);
     }
 
-    public int getUrgency(Order order){
-        return 3;
-    }
 }
