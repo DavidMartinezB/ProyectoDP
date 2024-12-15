@@ -51,7 +51,6 @@ public class DeliveryCompany {
      */
     public void addDeliveryPerson(DeliveryPerson dp) {
         deliveryPersons.add(dp);
-        System.out.println("Added delivery person: " + dp);
     }
 
     /**
@@ -60,8 +59,6 @@ public class DeliveryCompany {
      */
     public void addOrder(Order order) {
         wareHouse.addOrder(order);
-        System.out.println("Order added: " + order);
-        System.out.println("Current orders in warehouse: " + wareHouse.getOrders().size());
     }
 
     /**
@@ -95,6 +92,12 @@ public class DeliveryCompany {
             }
             i++;
         }
+<<<<<<< HEAD
+=======
+        for (int j=0;j<deliveryPersons.size();j++)  {
+            deliveryPersons.get(j).clearTargetLocation();
+        }
+>>>>>>> Spruken
     return dpLibre;
     }
 
@@ -112,7 +115,10 @@ public class DeliveryCompany {
             System.out.println("<<<< " + dp.getClass().getName() + " " + dp.getName()+" at " + dp.getLocation() + " go to pick up order from " + order.getSendingName() + " at " + order.getLocation());
             wareHouse.addOrder(order);
             dp.setPickupLocation(order.getLocation());
+            order.setDeliveryPersonName(dp.getName());
             solicita = true;
+            System.out.println("<<<< " + dp + " go to pick up order from " + 
+            order.getSendingName() + " at " + order.getLocation());
         }
 
         return solicita;
@@ -133,7 +139,11 @@ public class DeliveryCompany {
                     dp.pickup(currentOrder);
                     order = currentOrder;
                     enc = true;
+<<<<<<< HEAD
                     System.out.println("<<<< " + dp + " picks up Order from " + order.getSendingName() + " to: " + order.getDestination());
+=======
+                    System.out.println("<<<< " + dp + " picks up Order from: " + order.getSendingName() + " to: " + order.getDestination());
+>>>>>>> Spruken
                 }
             }
         }
@@ -146,7 +156,11 @@ public class DeliveryCompany {
      */
     public void arrivedAtDestination(DeliveryPerson dp, Order order) {
         wareHouse.addDeliveredOrder(order, dp);
+<<<<<<< HEAD
         System.out.println( "<<<< " + dp + " delivers Order at: " + order.getDeliveryTime() + "from: " + order.getSendingName() + "to: " 
         + order.getDestinationName() + "(charge: " + order.charge() + ")");
+=======
+        System.out.println("<<<< " + dp + " delivers " + order);
+>>>>>>> Spruken
     }
 }
