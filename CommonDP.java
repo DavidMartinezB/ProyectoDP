@@ -8,6 +8,7 @@
 public class CommonDP extends DeliveryPerson implements PopularEnRedes
 {
     private int popularEnRedes;
+
     public CommonDP (DeliveryCompany company, Location location, String name){
         super(company, location, name, 4);
         popularEnRedes = 6;
@@ -26,6 +27,11 @@ public class CommonDP extends DeliveryPerson implements PopularEnRedes
     {
         setPopularEnRedes();
         super.deliverOrder();
+    }
+
+    @Override
+    public String showFinalInfo(){
+        return super.showFinalInfo() + " - popularity: " + popularEnRedes;
     }
 
 }

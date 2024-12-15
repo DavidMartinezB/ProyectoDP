@@ -224,9 +224,10 @@ public abstract class Order  {
      * Devuelve los detalles del pedido que está por entregarse.
      * @return Una cadena de tipo String con la info del pedido.
      */
-    public String showInitialInfo ()     {
-        return "from: " + sendingName + " to: " + destinationName + " at: " +
-               deliveryTime + " weight: " + weight;
+    public String showInitialInfo()     {
+        return getClass().getName() + " from: " + sendingName + " to: " + destinationName + " at: " +
+               deliveryTime + " weight: " + weight + " from: " + location.getX() + " - " + location.getY() + 
+               " to: " + destination.getX() + " - " + destination.getY() + " <urgency: " + urgency.getName() + " (value: " + urgency.getValue() + ")>";
     }
     
     /**
@@ -245,7 +246,7 @@ public abstract class Order  {
      */
     public String showFinalInfo()
     {
-        return " Order delivered at: " + deliveryTime + " by: " + deliveryPersonName + 
+        return getClass().getName() + " delivered at: " + deliveryTime + " by: " + deliveryPersonName + 
                " to: " + destinationName + " from: " + sendingName;
     }
 
