@@ -9,9 +9,9 @@ public class UrgentOrder extends Order
 {
     //CONSTRUCTOR DE LA SUBCLASE UrgentOrder
     public UrgentOrder (String sendingName, Location location, Location destination, int deliveryTime, 
-                 double weight, String destinationName, Surcharge surcharge)   {
+                 double weight, String destinationName, Surcharge surcharge, Urgency urgency)   {
         super(sendingName, location, destination, deliveryTime, 
-                weight, destinationName, surcharge, Urgency.IMPORTANT);
+                weight, destinationName, surcharge, urgency);
     }
     
     /**

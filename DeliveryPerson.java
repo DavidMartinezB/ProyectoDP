@@ -291,9 +291,9 @@ public abstract class DeliveryPerson
     /**
      * Notify the company of our arrival at a pickup location.
      */
-    public void notifyPickupArrival(Order order)
+    public void notifyPickupArrival()
     {
-        company.arrivedAtPickup(this, order);
+        company.arrivedAtPickup(this, getFirstOrder());
     }
 
     /**
@@ -339,7 +339,7 @@ public abstract class DeliveryPerson
     /**
      * Carry out a delivery person's actions.
      */
-    public void act(Order order)
+    public void act()
     {
         if(!hasTargetLocation()){
             incrementIdleCount();
@@ -347,7 +347,7 @@ public abstract class DeliveryPerson
         else{
             location = location.nextLocation(targetLocation);
             if (this.isFree() && this.getLocation().equals(this.getTargetLocation())) {
-                notifyPickupArrival(order);
+                notifyPickupArrival();
             }
             else{
                 if(!this.isFree() && this.getLocation().equals(this.getTargetLocation())){

@@ -27,6 +27,7 @@ public class DeliveryCompany {
     public String getName() {
         return name;
     }
+    
     public WareHouse getWareHouse() {
         return wareHouse;
     }
