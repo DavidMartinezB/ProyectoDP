@@ -143,7 +143,7 @@ public abstract class DeliveryPerson
      * @return The  first Order of ordersToDeliver.
      */
     public Order getFirstOrder(){
-        return (Order)((TreeSet)ordersToDeliver).first();
+        return ((TreeSet<Order>)ordersToDeliver).first();
     }
 
     /**
@@ -362,7 +362,8 @@ public abstract class DeliveryPerson
         }
         else{
             location = location.nextLocation(targetLocation);
-            if(this.isFree() && this.getLocation().equals(this.getTargetLocation())){
+            System.out.println("@@@" + getClass().getName() + ": " + getName() + " moving to: " + getLocation().getX() + " - " + getLocation().getY());
+                if(this.isFree() && this.getLocation().equals(this.getTargetLocation())){
                 //Si encuentra que tiene algun Order cuyo destino coincide con la posicion de dp significa que lo va a entregar
                 //Sino es que va a coger el Order
                 boolean enc = false;
@@ -393,7 +394,11 @@ public abstract class DeliveryPerson
     public String showInitialInfo(){
         return toString();
     }
- 
+    
+    public String showInfo(){
+        return toString() + "go to pick up order from " + getFirstOrder().getSendingName() + "at location " + getFirstOrder().getLocation();
+    }
+
     /**
      * Return details of the delivery person, such as the name, the location,
      * number of delivered orders and time (steps) without moving.
@@ -401,7 +406,8 @@ public abstract class DeliveryPerson
      */
     public String showFinalInfo()
     {
-        return toString() + " - orders delivered: " + ordersDelivered() + " - non active for: " + getIdleCount() +" times";
+        return toString() + " - orders delivered: " + ordersDelivered() + " - non active for: " + getIdleCount() +" times - total to be collected: " 
+            + obtainTotalCharge() + " - valuation: " + getValuation();
     }
 
 }

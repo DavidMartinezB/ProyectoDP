@@ -95,9 +95,6 @@ public class DeliveryCompany {
             }
             i++;
         }
-        for (int j=0;j<deliveryPersons.size();j++)  {
-            deliveryPersons.get(j).clearTargetLocation();
-        }
     return dpLibre;
     }
 
@@ -112,6 +109,7 @@ public class DeliveryCompany {
         DeliveryPerson dp = getDeliveryPerson(order);
         
         if (dp != null) {
+            System.out.println("<<<< " + dp.getClass().getName() + " " + dp.getName()+" at " + dp.getLocation() + " go to pick up order from " + order.getSendingName() + " at " + order.getLocation());
             wareHouse.addOrder(order);
             dp.setPickupLocation(order.getLocation());
             solicita = true;
@@ -130,11 +128,12 @@ public class DeliveryCompany {
         if (dp.distanceToTheTargetLocation() == 0)   {
             Iterator<Order> iterator = this.getWareHouse().getOrders().iterator();
             while (iterator.hasNext() && !enc) {
-                if(iterator.next().getDestination().equals(dp.getLocation())){
-                    dp.pickup(iterator.next());
-                    order = iterator.next();
+                Order currentOrder = iterator.next();
+                if(currentOrder.getLocation().equals(dp.getLocation())){
+                    dp.pickup(currentOrder);
+                    order = currentOrder;
                     enc = true;
-                    System.out.println(dp + " picks up Order from " + order.getSendingName() + " to " + order.getDestinationName());
+                    System.out.println("<<<< " + dp + " picks up Order from " + order.getSendingName() + " to: " + order.getDestination());
                 }
             }
         }
@@ -147,6 +146,7 @@ public class DeliveryCompany {
      */
     public void arrivedAtDestination(DeliveryPerson dp, Order order) {
         wareHouse.addDeliveredOrder(order, dp);
-        System.out.println(dp + " delivers " + order);
+        System.out.println( "<<<< " + dp + " delivers Order at: " + order.getDeliveryTime() + "from: " + order.getSendingName() + "to: " 
+        + order.getDestinationName() + "(charge: " + order.charge() + ")");
     }
 }
