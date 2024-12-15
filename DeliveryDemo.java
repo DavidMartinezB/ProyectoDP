@@ -26,7 +26,7 @@ public class DeliveryDemo
         //Comentar o descomentar cada demo para ser ejecutada
 
         //Demo con 1 paquete y 1 persona de reparto
-        DemoOneOrder demoOne = new DemoOneOrder();
+        DemoOneOrderFinal demoOne = new DemoOneOrderFinal();
         demoOne.run();
 
         //Demo con 2 paquetes y 3 personas de reparto

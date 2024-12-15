@@ -6,7 +6,7 @@ import java.util.Comparator;
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class ComparadorDeliverdedOrders implements Comparator<Order>
+public class ComparadorDeliveredOrders implements Comparator<Order>
 {
     @Override
     public int compare(Order o1, Order o2) {
