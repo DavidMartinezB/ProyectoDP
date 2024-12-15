@@ -226,7 +226,8 @@ public abstract class Order  {
      */
     public String showInitialInfo()     {
         return getClass().getName() + " from: " + sendingName + " to: " + destinationName + " at: " +
-               deliveryTime + " weight: " + weight;
+               deliveryTime + " weight: " + weight + " from: " + location.getX() + " - " + location.getY() + 
+               " to: " + destination.getX() + " - " + destination.getY() + " <urgency: " + urgency.getName() + " (value: " + urgency.getValue() + ")>";
     }
     
     /**
@@ -245,7 +246,7 @@ public abstract class Order  {
      */
     public String showFinalInfo()
     {
-        return " Order delivered at: " + deliveryTime + " by: " + deliveryPersonName + 
+        return getClass().getName() + " delivered at: " + deliveryTime + " by: " + deliveryPersonName + 
                " to: " + destinationName + " from: " + sendingName;
     }
 
