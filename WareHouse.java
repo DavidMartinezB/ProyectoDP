@@ -11,7 +11,7 @@ public class WareHouse {
     public WareHouse() {
         this.location = new Location(5, 5);
         this.orders = new TreeSet<>(new ComparadorUrgenciaOrder());
-        this.deliveredOrders = new TreeMap<>(new ComparadorDeliverdedOrders());
+        this.deliveredOrders = new TreeMap<>(new ComparadorDeliveredOrders());
     }
 
     /**

@@ -5,10 +5,10 @@
  * @author (your name) 
  * @version (a version number or a date)
  */
-public class CommondDP extends DeliveryPerson implements PopularEnRedes
+public class CommonDP extends DeliveryPerson implements PopularEnRedes
 {
     private int popularEnRedes;
-    public CommondDP (DeliveryCompany company, Location location, String name){
+    public CommonDP (DeliveryCompany company, Location location, String name){
         super(company, location, name, 4);
         popularEnRedes = 6;
     }

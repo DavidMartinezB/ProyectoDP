@@ -9,9 +9,9 @@ public class MedicalOrder extends Order
 {
     //CONSTRUCTOR DE LA SUBCLASE MedicalOrder
     public MedicalOrder (String sendingName, Location location, Location destination, int deliveryTime, 
-                 double weight, String destinationName, Surcharge surcharge)   {
+                 double weight, String destinationName, Urgency urgency)   {
         super(sendingName, location, destination, deliveryTime, 
-                weight, destinationName, surcharge,Urgency.EMERGENCY);
+                weight, destinationName, null ,urgency);
     }
     
     /**
