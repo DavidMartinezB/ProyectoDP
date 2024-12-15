@@ -138,18 +138,34 @@ public abstract class DeliveryPerson
         return idleCount;
     }
 
+    /**
+     * Get the first Order of ordersToDeliver
+     * @return The  first Order of ordersToDeliver.
+     */
     public Order getFirstOrder(){
         return (Order)((TreeSet)ordersToDeliver).first();
     }
 
+    /**
+     * Get the set of Orders OrdesToDeliver
+     * @return OrdersToDeliver of the delivery person.
+     */
     public Set<Order> getOrdersToDeliver(){
         return ordersToDeliver;
     }
 
+    /**
+     * Get the maxLoad
+     * @return The maxLoad of the delivery person.
+     */
     public int getMaxLoad(){
         return maxLoad;
     }
 
+    /**
+     * Get the valuation
+     * @return The valuation of the delivery person.
+     */
     public int getValuation(){
         return valuation;
     }
@@ -194,7 +210,7 @@ public abstract class DeliveryPerson
     public void pickup(Order order)
     {
         setTargetLocation(order.getDestination());
-        ((TreeSet)ordersToDeliver).addFirst(order);
+        ((TreeSet)ordersToDeliver).add(order);
     }   
 
     /**
@@ -293,7 +309,7 @@ public abstract class DeliveryPerson
      */
     public void notifyPickupArrival()
     {
-        company.arrivedAtPickup(this, getFirstOrder());
+        company.arrivedAtPickup(this);
     }
 
     /**
@@ -346,8 +362,24 @@ public abstract class DeliveryPerson
         }
         else{
             location = location.nextLocation(targetLocation);
-            if (this.isFree() && this.getLocation().equals(this.getTargetLocation())) {
-                notifyPickupArrival();
+            if(this.isFree() && this.getLocation().equals(this.getTargetLocation())){
+                //Si encuentra que tiene algun Order cuyo destino coincide con la posicion de dp significa que lo va a entregar
+                //Sino es que va a coger el Order
+                boolean enc = false;
+                Iterator<Order> iterator = this.getOrdersToDeliver().iterator();
+                while (iterator.hasNext() && !enc) {
+                    if(iterator.next().getDestination().equals(this.getLocation())){
+                        enc = true;
+                    }
+                }
+                if(enc){
+                    deliverOrder();
+                    incrementOrdersDelivered();
+
+                }
+                else{
+                    notifyPickupArrival();
+                }
             }
             else{
                 if(!this.isFree() && this.getLocation().equals(this.getTargetLocation())){
