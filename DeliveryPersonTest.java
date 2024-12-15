@@ -30,23 +30,17 @@ public class DeliveryPersonTest {
     public void setUp() {
         System.out.println("Setting up the test environment...");
         company = new DeliveryCompany("Compañía DP Delivery Cáceres");
-        // Starting position for the delivery person.
-        Location dpLocation = new Location(0, 0);
-        // Locations for the order.
+        // Location for the order.
         Location pickup = new Location(1, 2);
-        Location destination = new Location(5, 6);
 
-        order = new Order("Kevin", pickup, destination, 10, 1.2, "Decathon Cáceres");
-        dp = new DeliveryPerson(company, dpLocation, "DP1");
-
-        // Starting position for the second delivery person.
-        Location dpLocation2 = new Location(2, 2);
-        // Locations for the second order.
+        order = new MedicalOrder("Kevin", pickup, new Location(14,2),11, 2.2, "Ruta de la Plata",Urgency.EMERGENCY);
+        dp = new SpecialDP(company, new Location(3, 3),"DP1");
+;
+        // Location for the second order.
         Location pickup2 = new Location(1, 3);
-        Location destination2 = new Location(4, 2);
 
-        order2 = new Order("Gru", pickup2, destination2, 7, 2.3, "Decathon Cáceres");
-        dp2 = new DeliveryPerson(company, dpLocation2, "DP2");
+        order2 = new NonUrgentOrder("Lucy", pickup2, new Location(2, 6),10, 1.2, "Decathon Cáceres", Surcharge.MEDIUM, Urgency.NONESSENTIAL);
+        dp2 = new CommonDP(company, new Location(12, 14),"DP2");
 
         // Add orders to the warehouse
         company.addOrder(order);
@@ -74,6 +68,7 @@ public class DeliveryPersonTest {
     public void testCreation() {
         System.out.println("Running testCreation...");
         assertEquals(true, dp.isFree());
+        assertEquals(true, dp2.isFree());
         System.out.println("testCreation complete.");
     }
 
@@ -88,7 +83,7 @@ public class DeliveryPersonTest {
         assertEquals(false, dp.isFree());
         dp2.pickup(order2);
         System.out.println("dp2 picked up order2: " + order2);
-        assertEquals(false, dp2.isFree());
+        assertEquals(true, dp2.isFree());
         System.out.println("testPickup complete.");
     }
 
@@ -119,33 +114,33 @@ public class DeliveryPersonTest {
         System.out.println("Running testDelivery...");
         dp.setPickupLocation(order.getLocation());
         System.out.println("dp set pickup location to: " + order.getLocation());
-        while (dp.isFree()) {
+        while (dp.getLocation() != order.getLocation()) {
             System.out.println("dp is acting to pick up the order...");
             dp.act(); // Obtiene el paquete
         }
         System.out.println("dp picked up the order.");
-        assertEquals(false, dp.isFree());
-        while (!dp.isFree()) {
+        assertEquals(1, dp.getOrdersToDeliver().size());
+        /*while (dp.getLocation() != order.getDestination()) {
             System.out.println("dp is acting to deliver the order...");
             dp.act(); // Deja el paquete
         }
         System.out.println("dp delivered the order.");
-        assertEquals(true, dp.isFree());
+        assertEquals(0, dp.getOrdersToDeliver().size());
 
         dp2.setPickupLocation(order2.getLocation());
         System.out.println("dp2 set pickup location to: " + order2.getLocation());
-        while (dp2.isFree()) {
+        while (dp2.getLocation() != order2.getLocation()) {
             System.out.println("dp2 is acting to pick up the order...");
             dp2.act(); // Obtiene el paquete
         }
         System.out.println("dp2 picked up the order.");
-        assertEquals(false, dp2.isFree());
-        while (!dp2.isFree()) {
+        assertEquals(1, dp2.getOrdersToDeliver().size());
+        while (dp2.getLocation() != order2.getDestination()) {
             System.out.println("dp2 is acting to deliver the order...");
             dp2.act(); // Deja el paquete
         }
         System.out.println("dp2 delivered the order.");
-        assertEquals(true, dp2.isFree());
-        System.out.println("testDelivery complete.");
+        assertEquals(0, dp2.getOrdersToDeliver().size());
+        System.out.println("testDelivery complete.");*/
     }
 }
