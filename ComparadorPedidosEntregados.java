@@ -1,11 +1,10 @@
 import java.util.*; 
-
 /**
- 
-Write a description of class ComparadorPedidosEntregados here.
-@author (your name)
-@version (a version number or a date)*/
-
+ * Write a description of class ComparadorPedidosEntregados here.
+ * 
+ * @author (your name) 
+ * @version (a version number or a date)
+ */
 public class ComparadorPedidosEntregados implements Comparator<DeliveryPerson>
 {
     public int compare(DeliveryPerson dp1, DeliveryPerson dp2) {

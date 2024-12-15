@@ -27,7 +27,6 @@ public class DeliveryCompany {
     public String getName() {
         return name;
     }
-    
     public WareHouse getWareHouse() {
         return wareHouse;
     }
@@ -69,46 +68,37 @@ public class DeliveryCompany {
      * Find the most closed free delivery person to the warehouse's location, if any.
      * @return A free delivery person, or null if there is none.
      */
-    private DeliveryPerson getDeliveryPerson(Order order) {
-        
-        for (int i=0;i<deliveryPersons.size();i++)  {
-            deliveryPersons.get(i).setTargetLocation(wareHouse.getLocation());
-        }
-        
-        Collections.sort(deliveryPersons, new ComparadorDeliveryPerson());
-        DeliveryPerson DPLibre = null;
-        boolean salir = false;
+    public DeliveryPerson getDeliveryPerson(Order order) {
         int i = 0;
-
-        while (i < deliveryPersons.size() && !salir) {
-            if (deliveryPersons.get(i).isFree() != false)   {
-                int cargaDP = deliveryPersons.get(i).getMaxLoad();
-                switch(cargaDP)    {
-                    case 1:
-                        if (order.getUrgency().getValue() == 5)
-                            DPLibre = deliveryPersons.get(i);
-                        salir = true;
-                        break;
-                    case 2:
-                        if (order.getUrgency().getValue() == 3)
-                            DPLibre = deliveryPersons.get(i);
-                        salir = true;
-                        break;
-                    case 4:
-                        if (order.getUrgency().getValue() == 3 || order.getUrgency().getValue() == 1)
-                            DPLibre = deliveryPersons.get(i);
-                        salir = true;
-                        break;
+        boolean enc = false;
+        for (int j=0;j<deliveryPersons.size();j++)  {
+            deliveryPersons.get(j).setTargetLocation(wareHouse.getLocation());
+        }
+        deliveryPersons.sort(new ComparadorDeliveryPerson());
+        int urgencia = order.getUrgency().getValue();
+        DeliveryPerson dpLibre = null;
+        while(i < deliveryPersons.size() && !enc){
+            DeliveryPerson dp = deliveryPersons.get(i);
+            if(dp.isFree()){
+                if(urgencia == 5 && dp.getMaxLoad() == 1){
+                    dpLibre = dp;
+                    enc = true;
+                }
+                if(urgencia == 3 && dp.getMaxLoad() == 2){
+                    dpLibre = dp;
+                    enc = true;
+                }
+                if((urgencia == 1 || urgencia == 3) && dp.getMaxLoad() == 4){
+                    dpLibre = dp;
+                    enc = true;
                 }
             }
             i++;
         }
-        
         for (int j=0;j<deliveryPersons.size();j++)  {
             deliveryPersons.get(j).clearTargetLocation();
         }
-
-        return DPLibre;
+    return dpLibre;
     }
 
     /**
@@ -134,14 +124,20 @@ public class DeliveryCompany {
      * A delivery person has arrived at a pickup point.
      * @param dp The delivery person at the pickup point.
      */
-    public void arrivedAtPickup(DeliveryPerson dp, Order order) {
-        
+    public void arrivedAtPickup(DeliveryPerson dp) {
+        Order order = null;
+        boolean enc = false;
         if (dp.distanceToTheTargetLocation() == 0)   {
-            dp.pickup(order);
+            Iterator<Order> iterator = this.getWareHouse().getOrders().iterator();
+            while (iterator.hasNext() && !enc) {
+                if(iterator.next().getDestination().equals(dp.getLocation())){
+                    dp.pickup(iterator.next());
+                    order = iterator.next();
+                    enc = true;
+                    System.out.println(dp + " picks up Order from " + order.getSendingName() + " to " + order.getDestinationName());
+                }
+            }
         }
-    
-        System.out.println(dp + " picks up Order from " + order.getSendingName() + 
-            " to " + order.getDestinationName());
     }
 
     /**

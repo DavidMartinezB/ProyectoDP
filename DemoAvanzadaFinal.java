@@ -2,15 +2,15 @@ import java.util.*;
 
 /**
  * Provide a simple demonstration of running a stage-one
- * scenario. A single order and delivery person are created, and a pickup
- * requested. As the simulation is run, the order
+ * scenario. Several orders and delivery persons are created. 
+ * Pickups are requested. As the simulation is run, the orders
  * should be picked up and then delivered to their destination.
  * 
  * @author David J. Barnes and Michael Kölling
  * @version 2016.02.29
  * @version 2024.11.13 DP classes
  */
-public class DemoOneOrderFinal
+public class DemoAvanzadaFinal
 {
     DeliveryCompany company;
     private List<DeliveryPerson> actors; //simulation's actors, they are the delivery persons
@@ -19,7 +19,7 @@ public class DemoOneOrderFinal
     /**
      * Constructor for objects of class DemoOneOrder
      */
-    public DemoOneOrderFinal()
+    public DemoAvanzadaFinal()
     {
         company = new DeliveryCompany("Compañía DP Delivery Cáceres");
         actors = new ArrayList<>();
@@ -70,10 +70,14 @@ public class DemoOneOrderFinal
     /**
      * DeliveryPersons are created and added to the company
      */
-    private void createDeliveryPersons() {
+   private void createDeliveryPersons() {
         DeliveryPerson dp1 = new SpecialDP(company, new Location(3, 3),"DP2");
-        
+        DeliveryPerson dp2 = new ExpressDP(company, new Location(10, 10),"DP1");
+        DeliveryPerson dp3 = new CommonDP(company, new Location(12, 14),"DP3");
+
         company.addDeliveryPerson(dp1);
+        company.addDeliveryPerson(dp2);
+        company.addDeliveryPerson(dp3);
         actors.addAll(company.getDeliveryPersons());
     }
 
@@ -85,16 +89,34 @@ public class DemoOneOrderFinal
         //Parameters: sendingName, location, destination, deliveryTime, 
         //weight, destinationName, urgency, surchage (only for Urgent and NonUrgent orders)
         Location whLocation = company.getWareHouse().getLocation();
-        Order order1 = new MedicalOrder("Kevin", whLocation,
+        Order order1 = new UrgentOrder("Agnes", whLocation,
+                new Location(19,19),12, 1.2, "Pintores 19", Urgency.IMPORTANT, Charge.MEDIUM);
+        Order order2 = new NonUrgentOrder("Lucy", whLocation,
+                new Location(2, 6),10, 1.2, "Cruz de los caídos", Urgency.NONESSENTIAL, Charge.MEDIUM);
+        Order order3 = new UrgentOrder("Gru", whLocation,
+                new Location(5,2),10, 1.5, "Pintores", Urgency.IMPORTANT, Charge.LOW);
+        Order order4 = new MedicalOrder("Kevin", whLocation,
                 new Location(14,2),11, 2.2, "Ruta de la Plata",Urgency.EMERGENCY);
+        Order order5 = new UrgentOrder("Edith", whLocation,
+                new Location(19,19),11, 1.2, "Pintores 19 B",Urgency.IMPORTANT, Charge.LOW);
+        Order order6 = new NonUrgentOrder("Stuart", whLocation,
+                new Location(14,3),10, 1.2, "Ruta de la Plata",Urgency.NONESSENTIAL,Charge.LOW);
+        Order order7 = new NonUrgentOrder("Margo", whLocation,
+                new Location(7,1),11, 1.5, "Cruz de los caídos, 3",Urgency.IMPORTANT,Charge.MEDIUM);
         company.addOrder(order1);
+        company.addOrder(order2);
+        company.addOrder(order3);
+        company.addOrder(order4);
+        company.addOrder(order5);
+        company.addOrder(order6);
+        company.addOrder(order7);
     }
 
     /**
      * A pickup is requested for a single order.
      * @throws IllegalStateException If a pickup cannot be found
      */
-    private void runSimulation() {
+        private void runSimulation() {
         //Obtener los orders desde wareHouse
         //ya vienen ordenados por su tipo de urgency, hora de llegada y destinationName
         //TODO colección   orders = company.getOrders();
