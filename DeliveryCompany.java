@@ -51,7 +51,6 @@ public class DeliveryCompany {
      */
     public void addDeliveryPerson(DeliveryPerson dp) {
         deliveryPersons.add(dp);
-        System.out.println("Added delivery person: " + dp);
     }
 
     /**
@@ -60,8 +59,6 @@ public class DeliveryCompany {
      */
     public void addOrder(Order order) {
         wareHouse.addOrder(order);
-        System.out.println("Order added: " + order);
-        System.out.println("Current orders in warehouse: " + wareHouse.getOrders().size());
     }
 
     /**
@@ -114,7 +111,10 @@ public class DeliveryCompany {
         if (dp != null) {
             wareHouse.addOrder(order);
             dp.setPickupLocation(order.getLocation());
+            order.setDeliveryPersonName(dp.getName());
             solicita = true;
+            System.out.println("<<<< " + dp + " go to pick up order from " + 
+            order.getSendingName() + " at " + order.getLocation());
         }
 
         return solicita;
@@ -130,11 +130,12 @@ public class DeliveryCompany {
         if (dp.distanceToTheTargetLocation() == 0)   {
             Iterator<Order> iterator = this.getWareHouse().getOrders().iterator();
             while (iterator.hasNext() && !enc) {
-                if(iterator.next().getDestination().equals(dp.getLocation())){
-                    dp.pickup(iterator.next());
-                    order = iterator.next();
+                Order currentOrder = iterator.next();
+                if(currentOrder.getLocation().equals(dp.getLocation())){
+                    dp.pickup(currentOrder);
+                    order = currentOrder;
                     enc = true;
-                    System.out.println(dp + " picks up Order from " + order.getSendingName() + " to " + order.getDestinationName());
+                    System.out.println("<<<< " + dp + " picks up Order from: " + order.getSendingName() + " to: " + order.getDestination());
                 }
             }
         }
@@ -147,6 +148,6 @@ public class DeliveryCompany {
      */
     public void arrivedAtDestination(DeliveryPerson dp, Order order) {
         wareHouse.addDeliveredOrder(order, dp);
-        System.out.println(dp + " delivers " + order);
+        System.out.println("<<<< " + dp + " delivers " + order);
     }
 }

@@ -310,6 +310,7 @@ public abstract class DeliveryPerson
     public void notifyPickupArrival()
     {
         company.arrivedAtPickup(this);
+        
     }
 
     /**
@@ -362,27 +363,29 @@ public abstract class DeliveryPerson
         }
         else{
             location = location.nextLocation(targetLocation);
-            if(this.isFree() && this.getLocation().equals(this.getTargetLocation())){
+            System.out.println("@@@  " + getClass().getName() + ": " + name + " moving to " + 
+            location.getX() + " - " + location.getY());
+            
+            if(isFree() && location.equals(targetLocation)){
                 //Si encuentra que tiene algun Order cuyo destino coincide con la posicion de dp significa que lo va a entregar
                 //Sino es que va a coger el Order
                 boolean enc = false;
-                Iterator<Order> iterator = this.getOrdersToDeliver().iterator();
+                Iterator<Order> iterator = ordersToDeliver.iterator();
                 while (iterator.hasNext() && !enc) {
-                    if(iterator.next().getDestination().equals(this.getLocation())){
+                    if(iterator.next().getDestination().equals(location)){
                         enc = true;
                     }
                 }
                 if(enc){
                     deliverOrder();
                     incrementOrdersDelivered();
-
                 }
                 else{
                     notifyPickupArrival();
                 }
             }
             else{
-                if(!this.isFree() && this.getLocation().equals(this.getTargetLocation())){
+                if(!isFree() && location.equals(targetLocation)){
                     deliverOrder();
                     incrementOrdersDelivered();
                 }
@@ -401,7 +404,8 @@ public abstract class DeliveryPerson
      */
     public String showFinalInfo()
     {
-        return toString() + " - orders delivered: " + ordersDelivered() + " - non active for: " + getIdleCount() +" times";
+        return toString() + " - orders delivered: " + ordersDelivered() + " - non active for: " + 
+        getIdleCount() +" times" + " - total to be collected: " + totalCharged + " - valuation: " + valuation;
     }
 
 }
