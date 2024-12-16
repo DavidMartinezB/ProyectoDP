@@ -58,7 +58,7 @@ public class DeliveryCompany {
      * @param order The new order.
      */
     public void addOrder(Order order) {
-        wareHouse.addOrder(order);
+        wareHouse.addOrder(order);  
     }
 
     /**
@@ -92,12 +92,6 @@ public class DeliveryCompany {
             }
             i++;
         }
-<<<<<<< HEAD
-=======
-        for (int j=0;j<deliveryPersons.size();j++)  {
-            deliveryPersons.get(j).clearTargetLocation();
-        }
->>>>>>> Spruken
     return dpLibre;
     }
 
@@ -117,8 +111,6 @@ public class DeliveryCompany {
             dp.setPickupLocation(order.getLocation());
             order.setDeliveryPersonName(dp.getName());
             solicita = true;
-            System.out.println("<<<< " + dp + " go to pick up order from " + 
-            order.getSendingName() + " at " + order.getLocation());
         }
 
         return solicita;
@@ -129,21 +121,15 @@ public class DeliveryCompany {
      * @param dp The delivery person at the pickup point.
      */
     public void arrivedAtPickup(DeliveryPerson dp) {
-        Order order = null;
-        boolean enc = false;
+        Order order;
         if (dp.distanceToTheTargetLocation() == 0)   {
             Iterator<Order> iterator = this.getWareHouse().getOrders().iterator();
-            while (iterator.hasNext() && !enc) {
+            while (iterator.hasNext()) {
                 Order currentOrder = iterator.next();
-                if(currentOrder.getLocation().equals(dp.getLocation())){
+                if(currentOrder.getLocation().equals(dp.getLocation()) && currentOrder.getDeliveryPersonName().equals(dp.getName())){
                     dp.pickup(currentOrder);
                     order = currentOrder;
-                    enc = true;
-<<<<<<< HEAD
                     System.out.println("<<<< " + dp + " picks up Order from " + order.getSendingName() + " to: " + order.getDestination());
-=======
-                    System.out.println("<<<< " + dp + " picks up Order from: " + order.getSendingName() + " to: " + order.getDestination());
->>>>>>> Spruken
                 }
             }
         }
@@ -156,11 +142,7 @@ public class DeliveryCompany {
      */
     public void arrivedAtDestination(DeliveryPerson dp, Order order) {
         wareHouse.addDeliveredOrder(order, dp);
-<<<<<<< HEAD
-        System.out.println( "<<<< " + dp + " delivers Order at: " + order.getDeliveryTime() + "from: " + order.getSendingName() + "to: " 
+        System.out.println( "<<<< " + dp + " delivers Order at: " + order.getDeliveryTime() + " from: " + order.getSendingName() + "to: " 
         + order.getDestinationName() + "(charge: " + order.charge() + ")");
-=======
-        System.out.println("<<<< " + dp + " delivers " + order);
->>>>>>> Spruken
     }
 }

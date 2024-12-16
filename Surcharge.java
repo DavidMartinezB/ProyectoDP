@@ -13,7 +13,8 @@ public enum Surcharge
     private String name;  //Cadena de caracteres que indica el tipo de recargo
     private int value;    //Entero que indica el tipo de recargo
     
-    Surcharge (String name, int value)    {
+    Surcharge (String name, int value){
+        this.name = name;
         this.value = value;
     }
     

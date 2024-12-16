@@ -17,6 +17,7 @@ public class UrgentOrder extends Order
     /**
      * @return Double the surcharge's value of the order.
      */
+    @Override
     public int charge ()   {
         return getSurcharge().getValue() * 2;
     }
@@ -25,7 +26,13 @@ public class UrgentOrder extends Order
      * Return an integer number that the delivery person must increase to the order.  
      * @return An integer value.
      */
+    @Override
     public int calculateEvaluationDP ()     {
         return 10;
+    }
+
+    @Override
+    public String showInitialInfo(){
+        return super.showInitialInfo() + " <charge: " + getSurcharge().getName() + " (value: " + getSurcharge().getValue() + ")>";
     }
 }

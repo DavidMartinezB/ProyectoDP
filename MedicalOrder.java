@@ -17,6 +17,7 @@ public class MedicalOrder extends Order
     /**
      * @return A null value for the surcharge.
      */
+    @Override
     public int charge ()   {
         return 0;
     }
@@ -25,6 +26,7 @@ public class MedicalOrder extends Order
      * Return an integer number that the delivery person must increase to the order.  
      * @return An integer value.
      */
+    @Override
     public int calculateEvaluationDP ()     {
         return 15;
     }

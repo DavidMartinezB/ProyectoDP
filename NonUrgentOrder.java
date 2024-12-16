@@ -17,6 +17,7 @@ public class NonUrgentOrder extends Order
     /**
      * @return The surcharge's value of the order.
      */
+    @Override
     public int charge ()   {
         return getSurcharge().getValue();
     }
@@ -25,7 +26,13 @@ public class NonUrgentOrder extends Order
      * Return an integer number that the delivery person must increase to the order.  
      * @return An integer value.
      */
+    @Override
     public int calculateEvaluationDP ()     {
         return 5;
+    }
+
+    @Override
+    public String showInitialInfo(){
+        return super.showInitialInfo() + " <charge: " + getSurcharge().getName() + " (value: " + getSurcharge().getValue() + ")>";
     }
 }
