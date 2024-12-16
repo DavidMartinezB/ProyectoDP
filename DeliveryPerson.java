@@ -310,6 +310,10 @@ public abstract class DeliveryPerson
     public void notifyPickupArrival()
     {
         company.arrivedAtPickup(this);
+<<<<<<< HEAD
+=======
+        
+>>>>>>> Spruken
     }
 
     /**
@@ -362,6 +366,7 @@ public abstract class DeliveryPerson
         }
         else{
             location = location.nextLocation(targetLocation);
+<<<<<<< HEAD
             System.out.println("@@@" + getClass().getName() + ": " + getName() + " moving to: " + getLocation().getX() + " - " + getLocation().getY());
                 if(this.isFree() && this.getLocation().equals(this.getTargetLocation())){
                 //Si encuentra que tiene algun Order cuyo destino coincide con la posicion de dp significa que lo va a entregar
@@ -370,20 +375,35 @@ public abstract class DeliveryPerson
                 Iterator<Order> iterator = this.getOrdersToDeliver().iterator();
                 while (iterator.hasNext() && !enc) {
                     if(iterator.next().getDestination().equals(this.getLocation())){
+=======
+            System.out.println("@@@  " + getClass().getName() + ": " + name + " moving to " + 
+            location.getX() + " - " + location.getY());
+            
+            if(isFree() && location.equals(targetLocation)){
+                //Si encuentra que tiene algun Order cuyo destino coincide con la posicion de dp significa que lo va a entregar
+                //Sino es que va a coger el Order
+                boolean enc = false;
+                Iterator<Order> iterator = ordersToDeliver.iterator();
+                while (iterator.hasNext() && !enc) {
+                    if(iterator.next().getDestination().equals(location)){
+>>>>>>> Spruken
                         enc = true;
                     }
                 }
                 if(enc){
                     deliverOrder();
                     incrementOrdersDelivered();
+<<<<<<< HEAD
 
+=======
+>>>>>>> Spruken
                 }
                 else{
                     notifyPickupArrival();
                 }
             }
             else{
-                if(!this.isFree() && this.getLocation().equals(this.getTargetLocation())){
+                if(!isFree() && location.equals(targetLocation)){
                     deliverOrder();
                     incrementOrdersDelivered();
                 }
@@ -406,8 +426,13 @@ public abstract class DeliveryPerson
      */
     public String showFinalInfo()
     {
+<<<<<<< HEAD
         return toString() + " - orders delivered: " + ordersDelivered() + " - non active for: " + getIdleCount() +" times - total to be collected: " 
             + obtainTotalCharge() + " - valuation: " + getValuation();
+=======
+        return toString() + " - orders delivered: " + ordersDelivered() + " - non active for: " + 
+        getIdleCount() +" times" + " - total to be collected: " + totalCharged + " - valuation: " + valuation;
+>>>>>>> Spruken
     }
 
 }
