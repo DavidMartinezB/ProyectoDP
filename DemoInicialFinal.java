@@ -90,6 +90,7 @@ public class DemoInicialFinal
         //weight, destinationName, urgency, surchage (only for Urgent and NonUrgent orders)
         Location whLocation = company.getWareHouse().getLocation();
         Order order1 = new NonUrgentOrder("Lucy", whLocation,
+<<<<<<< HEAD
                 new Location(2, 6),10, 1.2, "Decathon Cáceres", Surcharge.MEDIUM, Urgency.NONESSENTIAL);
         Order order2 = new UrgentOrder("Gru", whLocation,
                 new Location(5,2),10, 1.5, "Pintores", Surcharge.LOW, Urgency.IMPORTANT);
@@ -97,6 +98,15 @@ public class DemoInicialFinal
                 new Location(14,2),11, 2.2, "Ruta de la Plata",Urgency.EMERGENCY);
         Order order4 = new NonUrgentOrder("Stuart", whLocation,
                 new Location(7,1),10, 1.2, "Cruz de los caídos", Surcharge.LOW, Urgency.NONESSENTIAL);
+=======
+                new Location(2, 6),10, 1.2, "Decathon Cáceres", Urgency.NONESSENTIAL, Charge.MEDIUM);
+        Order order2 = new UrgentOrder("Gru", whLocation,
+                new Location(5,2),10, 1.5, "Pintores", Urgency.IMPORTANT, Charge.LOW);
+        Order order3 = new MedicalOrder("Kevin", whLocation,
+                new Location(14,2),11, 2.2, "Ruta de la Plata",Urgency.EMERGENCY);
+        Order order4 = new NonUrgentOrder("Stuart", whLocation,
+                new Location(7,1),10, 1.2, "Cruz de los caídos",Urgency.NONESSENTIAL,Charge.LOW);
+>>>>>>> Spruken
         company.addOrder(order1);
         company.addOrder(order2);
         company.addOrder(order3);
@@ -110,7 +120,11 @@ public class DemoInicialFinal
        private void runSimulation() {
         //Obtener los orders desde wareHouse
         //ya vienen ordenados por su tipo de urgency, hora de llegada y destinationName
+<<<<<<< HEAD
         Set<Order> orders = company.getOrders();
+=======
+        //TODO colección   orders = company.getOrders();
+>>>>>>> Spruken
         Iterator<Order> it = orders.iterator();
         while(it.hasNext()) {
             Order order = it.next();
@@ -127,12 +141,20 @@ public class DemoInicialFinal
         //Obtenemos los objetos DeliveryPerson de la compañía
         List<DeliveryPerson> deliveryPersons = company.getDeliveryPersons();
         //Obtenemos los objetos Orders del almacén (vienen ya ordenados)
+<<<<<<< HEAD
         Set<Order> orders = company.getOrders();
+=======
+        //TODO colección  orders = company.getOrders();
+>>>>>>> Spruken
 
         System.out.println("--->> Simulation of the company: "+company.getName()+" <<---");
         System.out.println("-->> Delivery persons of the company <<--");
         System.out.println("-->> ------------------------------- <<--");
+<<<<<<< HEAD
         deliveryPersons.sort(new ComparadorNombreDeliveryPerson());
+=======
+        //TODO ordenar (por su nombre) y mostrar los objetos delivery persons
+>>>>>>> Spruken
         for(DeliveryPerson  dp : deliveryPersons) {
             System.out.println(dp);
         }
@@ -158,7 +180,11 @@ public class DemoInicialFinal
         List<DeliveryPerson> deliveryPersons = company.getDeliveryPersons();
         //Obtenemos los orders entregados con sus objetos DeliveryPerson asociados
         //desde el almacén (vienen ya ordenados)
+<<<<<<< HEAD
         Map<Order, DeliveryPerson> ordersDelivered = company.getWareHouse().getDeliveredOrders();
+=======
+        //TODO declarar colección ordersDelivered = company.getWareHouse().getDeliveredOrders();
+>>>>>>> Spruken
 
         System.out.println("");
         System.out.println("-->> ----------------- <<--");
@@ -168,7 +194,12 @@ public class DemoInicialFinal
 
         System.out.println("-->> Delivery persons final information <<--");
         System.out.println("-->> ---------------------------------- <<--");
+<<<<<<< HEAD
         deliveryPersons.sort(new ComparadorPedidosEntregados()); 
+=======
+        //TODO ordenar (por número de pedidos entregados y si empate por nombre) 
+        // y mostrar los objetos delivery persons        
+>>>>>>> Spruken
         for(DeliveryPerson  dp : deliveryPersons) {
             System.out.println(dp.showFinalInfo());
         }
@@ -176,10 +207,17 @@ public class DemoInicialFinal
         System.out.println("");
         System.out.println("-->> Orders final information <<--");
         System.out.println("-->> ------------------------ <<--");
+<<<<<<< HEAD
         //Mostrar los orders obtenidos
         for(Order order : ordersDelivered.keySet()){
             System.out.println(order.showFinalInfo());
         }
+=======
+        //TODO los pedidos entregados vienen en orden creciente por sendingName y  
+        // en caso de empate por la hora de entrega y mostrar los pedidos y quién 
+        // lo entregó
+        //Mostrar los orders obtenidos
+>>>>>>> Spruken
         
 
     }
