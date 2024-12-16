@@ -13,6 +13,8 @@ public class DeliveryPersonTest {
     private Order order;
     private DeliveryPerson dp2;
     private Order order2;
+    private DeliveryPerson dp3;
+    private Order order3;
     private DeliveryCompany company;
 
     /**
@@ -39,12 +41,19 @@ public class DeliveryPersonTest {
         // Location for the second order.
         Location pickup2 = new Location(1, 3);
 
-        order2 = new NonUrgentOrder("Lucy", pickup2, new Location(2, 6),10, 1.2, "Decathon Cáceres", Surcharge.MEDIUM, Urgency.NONESSENTIAL);
+        order2 = new NonUrgentOrder("Lucy", pickup2, new Location(2, 6),10, 1.2, "Decathon Cáceres", Surcharge.MEDIUM, Urgency.NONESSENTIAL); 
         dp2 = new CommonDP(company, new Location(12, 14),"DP2");
+
+        // Location for the third order.
+        Location pickup3 = new Location(1, 4);
+
+        order3 = new UrgentOrder("Edith", pickup3, new Location(19,19),11, 1.2, "Pintores 19 B", Surcharge.LOW, Urgency.IMPORTANT);
+        dp3 = new ExpressDP(company, new Location(10, 10),"DP3");
 
         // Add orders to the warehouse
         company.addOrder(order);
         company.addOrder(order2);
+        company.addOrder(order3);
 
         System.out.println("Setup complete.");
     }
@@ -69,6 +78,7 @@ public class DeliveryPersonTest {
         System.out.println("Running testCreation...");
         assertEquals(true, dp.isFree());
         assertEquals(true, dp2.isFree());
+        assertEquals(true, dp3.isFree());
         System.out.println("testCreation complete.");
     }
 
@@ -84,6 +94,10 @@ public class DeliveryPersonTest {
         dp2.pickup(order2);
         System.out.println("dp2 picked up order2: " + order2);
         assertEquals(true, dp2.isFree());
+        System.out.println("testPickup complete.");
+        dp3.pickup(order3);
+        System.out.println("dp3 picked up order2: " + order3);
+        assertEquals(true, dp3.isFree());
         System.out.println("testPickup complete.");
     }
 
@@ -114,13 +128,16 @@ public class DeliveryPersonTest {
         System.out.println("Running testDelivery...");
         dp.setPickupLocation(order.getLocation());
         System.out.println("dp set pickup location to: " + order.getLocation());
-        while (dp.getLocation() != order.getLocation()) {
+        int dist = dp.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++) {
             System.out.println("dp is acting to pick up the order...");
             dp.act(); // Obtiene el paquete
         }
         System.out.println("dp picked up the order.");
-        assertEquals(1, dp.getOrdersToDeliver().size());
-        /*while (dp.getLocation() != order.getDestination()) {
+        assertEquals(dp.getLocation(), order.getLocation());
+
+        dist = dp.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++) {
             System.out.println("dp is acting to deliver the order...");
             dp.act(); // Deja el paquete
         }
@@ -129,18 +146,99 @@ public class DeliveryPersonTest {
 
         dp2.setPickupLocation(order2.getLocation());
         System.out.println("dp2 set pickup location to: " + order2.getLocation());
-        while (dp2.getLocation() != order2.getLocation()) {
+        dist = dp2.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++){
             System.out.println("dp2 is acting to pick up the order...");
             dp2.act(); // Obtiene el paquete
         }
         System.out.println("dp2 picked up the order.");
-        assertEquals(1, dp2.getOrdersToDeliver().size());
-        while (dp2.getLocation() != order2.getDestination()) {
+        assertEquals(dp2.getLocation(), order2.getLocation());
+
+        dist = dp2.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++) {
             System.out.println("dp2 is acting to deliver the order...");
             dp2.act(); // Deja el paquete
         }
         System.out.println("dp2 delivered the order.");
         assertEquals(0, dp2.getOrdersToDeliver().size());
-        System.out.println("testDelivery complete.");*/
+    }
+    
+    @Test
+    public void testObtainTotalCharge(){
+        dp.pickup(order);
+        dp2.pickup(order);
+        dp2.pickup(order2);
+        dp.deliverOrder();
+        dp2.deliverOrder();
+        dp2.deliverOrder();
+        assertEquals(dp.obtainTotalCharge(), 0);
+        assertEquals(dp2.obtainTotalCharge(), 10);
+    }
+    
+    @Test
+    public void testGetOrder(){
+        dp.pickup(order);
+        dp2.pickup(order);
+        dp2.pickup(order2);
+        assertEquals(dp.getFirstOrder(),  order);
+        assertEquals(dp2.getFirstOrder(), order);
+    }
+    
+    @Test
+    public void testAct(){
+        System.out.println("Running testDelivery...");
+        dp.setPickupLocation(order.getLocation());
+        System.out.println("dp set pickup location to: " + order.getLocation());
+        int dist = dp.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++) {
+            System.out.println("dp is acting to pick up the order...");
+            dp.act(); // Obtiene el paquete
+        }
+        System.out.println("dp picked up the order.");
+        assertEquals(dp.getLocation(), order.getLocation());
+
+        dist = dp.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++) {
+            System.out.println("dp is acting to deliver the order...");
+            dp.act(); // Deja el paquete
+        }
+        System.out.println("dp delivered the order.");
+        assertEquals(0, dp.getOrdersToDeliver().size());
+
+        dp2.setPickupLocation(order2.getLocation());
+        System.out.println("dp2 set pickup location to: " + order2.getLocation());
+        dist = dp2.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++){
+            System.out.println("dp2 is acting to pick up the order...");
+            dp2.act(); // Obtiene el paquete
+        }
+        System.out.println("dp2 picked up the order.");
+        assertEquals(dp2.getLocation(), order2.getLocation());
+
+        dist = dp2.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++) {
+            System.out.println("dp2 is acting to deliver the order...");
+            dp2.act(); // Deja el paquete
+        }
+        System.out.println("dp2 delivered the order.");
+        assertEquals(0, dp2.getOrdersToDeliver().size());
+
+        dp3.setPickupLocation(order3.getLocation());
+        System.out.println("dp3 set pickup location to: " + order3.getLocation());
+        dist = dp3.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++){
+            System.out.println("dp3 is acting to pick up the order...");
+            dp3.act(); // Obtiene el paquete
+        }
+        System.out.println("dp3 picked up the order.");
+        assertEquals(dp3.getLocation(), order3.getLocation());
+
+        dist = dp3.distanceToTheTargetLocation();
+        for(int i = 0; i <= dist; i++) {
+            System.out.println("dp3 is acting to deliver the order...");
+            dp3.act(); // Deja el paquete
+        }
+        System.out.println("dp3 delivered the order.");
+        assertEquals(0, dp3.getOrdersToDeliver().size());
     }
 }
