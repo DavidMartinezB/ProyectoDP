@@ -220,8 +220,8 @@ public abstract class DeliveryPerson
      */
     public void pickup(Order order)
     {
-        setTargetLocation(order.getDestination());
         ((TreeSet)ordersToDeliver).add(order);
+        setTargetLocation(getFirstOrder().getDestination());
     }   
 
     /**
@@ -285,7 +285,7 @@ public abstract class DeliveryPerson
      * @param newValuation The new valuation to add.
      */
     public void updateValuation(int newValuation){
-        valuation = newValuation;
+        valuation = valuation + newValuation;
     }
 
     /**
@@ -340,6 +340,7 @@ public abstract class DeliveryPerson
         clearTargetLocation();
         incTotalCharged(getFirstOrder().charge());
         updateValuation(getFirstOrder().calculateEvaluationDP());
+        incrementOrdersDelivered();
         ((TreeSet)ordersToDeliver).pollFirst();
         if(!ordersToDeliver.isEmpty()){
             setTargetLocation(getFirstOrder().getDestination());
@@ -385,18 +386,19 @@ public abstract class DeliveryPerson
                     }
                 }
                 if(enc){
-                    deliverOrder();
-                    incrementOrdersDelivered();
-
+                    while(this.getLocation().equals(this.getTargetLocation())){
+                        deliverOrder();
+                    }
                 }
                 else{
                     notifyPickupArrival();
                 }
             }
             else{
-                if(!this.isFree() && this.getLocation().equals(this.getTargetLocation())){
-                    deliverOrder();
-                    incrementOrdersDelivered();
+                if(!this.isFree()){
+                    while(this.getLocation().equals(this.getTargetLocation())){
+                        deliverOrder();
+                    }
                 }
             }
         }

@@ -30,11 +30,11 @@ public class DeliveryDemo
         //demoOne.run();
 
         //Demo con 2 paquetes y 3 personas de reparto
-        DemoInicialFinal demoIni = new DemoInicialFinal();
-        demoIni.run();
+        //DemoInicialFinal demoIni = new DemoInicialFinal();
+        //demoIni.run();
 
         //Demo con varios paquetes y personas de reparto
-        //DemoAvanzadaFinal demoAvan = new DemoAvanzadaFinal();
-        //demoAvan.run();
+        DemoAvanzadaFinal demoAvan = new DemoAvanzadaFinal();
+        demoAvan.run();
     }
 }
