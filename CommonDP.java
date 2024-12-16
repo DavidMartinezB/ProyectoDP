@@ -15,8 +15,9 @@ public class CommonDP extends DeliveryPerson implements PopularEnRedes
     }
     
     public void setPopularEnRedes(){
-        if(getFirstOrder().getUrgency().getValue() == 3 )
-        popularEnRedes = popularEnRedes + 4;
+        if(getFirstOrder().getUrgency().getValue() == 3 ){
+            popularEnRedes = popularEnRedes + 4;
+        }
         else{
             popularEnRedes = popularEnRedes + 1;
         }
