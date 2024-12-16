@@ -237,7 +237,7 @@ public abstract class Order  {
     public String toString()
     {
         return "Order at: " + deliveryTime + " from: " +
-        sendingName + " to: " + destinationName + " (charge: " + charge() + ")";
+        sendingName + " to: " + destinationName;
     }
 
     /**

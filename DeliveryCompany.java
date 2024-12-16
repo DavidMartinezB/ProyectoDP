@@ -77,15 +77,15 @@ public class DeliveryCompany {
         while(i < deliveryPersons.size() && !enc){
             DeliveryPerson dp = deliveryPersons.get(i);
             if(dp.isFree()){
-                if(urgencia == 5 && dp.getMaxLoad() == 1){
+                if(urgencia == 5 && dp.getMaxLoad() == 1 && dp.getNPickupLocations() != 0){
                     dpLibre = dp;
                     enc = true;
                 }
-                if(urgencia == 3 && dp.getMaxLoad() == 2){
+                if(urgencia == 3 && dp.getMaxLoad() == 2 && dp.getNPickupLocations() != 0){
                     dpLibre = dp;
                     enc = true;
                 }
-                if((urgencia == 1 || urgencia == 3) && dp.getMaxLoad() == 4){
+                if((urgencia == 1 || urgencia == 3) && dp.getMaxLoad() == 4 && dp.getNPickupLocations() != 0){
                     dpLibre = dp;
                     enc = true;
                 }
@@ -109,6 +109,7 @@ public class DeliveryCompany {
             System.out.println("<<<< " + dp.getClass().getName() + " " + dp.getName()+" at " + dp.getLocation() + " go to pick up order from " + order.getSendingName() + " at " + order.getLocation());
             wareHouse.addOrder(order);
             dp.setPickupLocation(order.getLocation());
+            dp.setNPickupLocations(dp.getNPickupLocations() - 1);
             order.setDeliveryPersonName(dp.getName());
             solicita = true;
         }
@@ -129,6 +130,7 @@ public class DeliveryCompany {
                 if(currentOrder.getLocation().equals(dp.getLocation()) && currentOrder.getDeliveryPersonName().equals(dp.getName())){
                     dp.pickup(currentOrder);
                     order = currentOrder;
+                    dp.setNPickupLocations(dp.getNPickupLocations() + 1);
                     System.out.println("<<<< " + dp + " picks up Order from " + order.getSendingName() + " to: " + order.getDestination());
                 }
             }

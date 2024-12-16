@@ -1,4 +1,4 @@
-import java.util.*;
+    import java.util.*;
 /**
  * Model the common elements of delivery persons.
  * 
@@ -28,6 +28,8 @@ public abstract class DeliveryPerson
     private int maxLoad;
     //total accumulated amount that has to be collected
     private int totalCharged;
+    //number of pickupLocations that the delivery person have
+    private int nPickupLocations;
 
     /**
      * Constructor of class DeliveryPerson
@@ -53,6 +55,7 @@ public abstract class DeliveryPerson
         this.valuation = 0;
         this.maxLoad = maxLoad;
         this.totalCharged = 0;
+        this.nPickupLocations = maxLoad;
     }
 
     /**
@@ -160,6 +163,14 @@ public abstract class DeliveryPerson
      */
     public int getMaxLoad(){
         return maxLoad;
+    }
+
+    public int getNPickupLocations(){
+        return nPickupLocations;
+    }
+
+    public void setNPickupLocations(int newNPickupLocations){
+        nPickupLocations = newNPickupLocations;
     }
 
     /**
@@ -274,7 +285,7 @@ public abstract class DeliveryPerson
      * @param newValuation The new valuation to add.
      */
     public void updateValuation(int newValuation){
-        valuation = valuation + newValuation;
+        valuation = newValuation;
     }
 
     /**
