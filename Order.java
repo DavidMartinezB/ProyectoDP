@@ -224,7 +224,7 @@ public abstract class Order  {
      * Devuelve los detalles del pedido que está por entregarse.
      * @return Una cadena de tipo String con la info del pedido.
      */
-    public String showInitialInfo()     {
+    public String showInitialInfo(){
         return getClass().getName() + " from: " + sendingName + " to: " + destinationName + " at: " +
                deliveryTime + " weight: " + weight + " from: " + location.getX() + " - " + location.getY() + 
                " to: " + destination.getX() + " - " + destination.getY() + " <urgency: " + urgency.getName() + " (value: " + urgency.getValue() + ")>";

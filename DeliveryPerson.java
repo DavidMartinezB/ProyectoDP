@@ -362,7 +362,7 @@ public abstract class DeliveryPerson
         }
         else{
             location = location.nextLocation(targetLocation);
-            System.out.println("@@@" + getClass().getName() + ": " + getName() + " moving to: " + getLocation().getX() + " - " + getLocation().getY());
+            System.out.println("@@@ " + getClass().getName() + ": " + getName() + " moving to: " + getLocation().getX() + " - " + getLocation().getY());
                 if(this.isFree() && this.getLocation().equals(this.getTargetLocation())){
                 //Si encuentra que tiene algun Order cuyo destino coincide con la posicion de dp significa que lo va a entregar
                 //Sino es que va a coger el Order
