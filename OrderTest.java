@@ -1,4 +1,4 @@
-ximport static org.junit.Assert.*;
+import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,9 +12,15 @@ import org.junit.Test;
  */
 public class OrderTest
 {
-    Order order;
-    Location location;
-    Location destination;
+    Order order1;
+    Order order2;
+    Order order3;
+    Location location1;
+    Location destination1;
+    Location location2;
+    Location destination2;
+    Location location3;
+    Location destination3;
     
     /**
      * Default constructor for test class OrderTest
@@ -31,9 +37,19 @@ public class OrderTest
     @Before
     public void setUp()
     {
-        location = new Location(3,5);
-        destination = new Location(6,1);
-        order = new Order("Pablo", location, destination, 11, 1.6, "Banana Vintage Cáceres");
+        location1 = new Location(3,5);
+        destination1 = new Location(6,1);
+        location2 = new Location(8,3);
+        destination2 = new Location(2,6);
+        location3 = new Location(13,5);
+        destination3 = new Location(4,10);
+        
+        order1 = new UrgentOrder("Pablo", location1, destination1, 11, 1.6, "Banana Vintage Cáceres",
+                                Surcharge.MEDIUM, Urgency.IMPORTANT);
+        order2 = new MedicalOrder("Lucía", location2, destination2, 16, 2.4, "Decathlon Cáceres",
+                                Urgency.EMERGENCY);
+        order3 = new NonUrgentOrder("Pepe", location3, destination3, 19, 3.6, "Ferretería AlClavo",
+                                Surcharge.LOW, Urgency.NONESSENTIAL);
     }
 
     /**
@@ -54,19 +70,19 @@ public class OrderTest
     @Test
     public void testCreation()
     {
-        assertEquals("Pablo", order.getSendingName());
-        assertEquals(location, order.getLocation());
-        assertEquals(destination, order.getDestination());
-        assertEquals(11, order.getDeliveryTime());
-        assertEquals(1.6, order.getWeight(), 0.001);
-        assertEquals("Banana Vintage Cáceres", order.getDestinationName());
+        assertEquals("Pablo", order1.getSendingName());
+        assertEquals(location1, order1.getLocation());
+        assertEquals(destination1, order1.getDestination());
+        assertEquals(11, order1.getDeliveryTime());
+        assertEquals(1.6, order1.getWeight(), 0.001);
+        assertEquals("Banana Vintage Cáceres", order1.getDestinationName());
         //Misma prueba realizada de otra manera:
         //para location
-        assertEquals(order.getLocation().getX(),3);
-        assertEquals(order.getLocation().getY(),5);
+        assertEquals(order1.getLocation().getX(),3);
+        assertEquals(order1.getLocation().getY(),5);
         //para destination
-        assertEquals(order.getDestination().getX(),6);
-        assertEquals(order.getDestination().getY(),1);
+        assertEquals(order1.getDestination().getX(),6);
+        assertEquals(order1.getDestination().getY(),1);
     }
 
     /**
@@ -76,10 +92,10 @@ public class OrderTest
     @Test
     public void testGetDeliveryPersonName()
     {
-        order.setDeliveryPersonName("Felicia");
-        assertEquals("Felicia", order.getDeliveryPersonName());
+        order2.setDeliveryPersonName("Felicia");
+        assertEquals("Felicia", order2.getDeliveryPersonName());
         //Misma prueba utilizando otra aserción:
-        assertTrue(order.getDeliveryPersonName() == "Felicia");
+        assertTrue(order2.getDeliveryPersonName() == "Felicia");
     }
 
     /**
@@ -89,8 +105,40 @@ public class OrderTest
     @Test
     public void testGetDestination ()
     {
-        assertEquals(order.getDestination(),destination);
+        assertEquals(order3.getDestination(),destination3);
         //Misma prueba utilizando otra aserción:
-        assertTrue(order.getDestination() == destination);
+        assertTrue(order3.getDestination() == destination3);
+    }
+    
+    /**
+     * Test of the charge method.
+     * Ensure that this method gets and returns the surcharge value correctly.
+     */
+    @Test
+    public void getCharge ()
+    {
+        assertEquals(order1.charge(), 20);
+        assertEquals(order2.charge(), 0);
+        assertEquals(order3.charge(), 4);
+        //Misma prueba utilizando otra aserción:
+        assertTrue(order1.charge() == 20);
+        assertTrue(order2.charge() == 0);
+        assertTrue(order3.charge() == 4);
+    }
+    
+    /**
+     * Test of the calculateEvaluationDP method.
+     * Ensure that this method gets and returns the new valoration value of the delivery person correctly.
+     */
+    @Test
+    public void testCalculateEvaluationDP ()
+    {
+        assertEquals(order1.calculateEvaluationDP(), 10);
+        assertEquals(order2.calculateEvaluationDP(), 15);
+        assertEquals(order3.calculateEvaluationDP(), 5);
+        //Misma prueba utilizando otra aserción:
+        assertTrue(order1.calculateEvaluationDP() == 10);
+        assertTrue(order2.calculateEvaluationDP() == 15);
+        assertTrue(order3.calculateEvaluationDP() == 5);
     }
 }
